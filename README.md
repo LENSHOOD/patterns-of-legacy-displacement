@@ -1,2 +1,2 @@
-# patterns-of-legacy-displacement
-《Patterns of  Legacy Displacement》中文翻译
+# Patterns of Legacy Displacement
+> [Patterns of Legacy Displacement](https://martinfowler.com/articles/patterns-legacy-displacement/) 中文翻译
