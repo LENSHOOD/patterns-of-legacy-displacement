@@ -17,15 +17,15 @@
 
 考虑一下翻新一栋建筑。一位建筑师已经为您提供了成品的效果图，而工人们正在准备开始。但第一步是在建筑工地搭脚手架。
 
-租用脚手架本身并支付团队安装脚手架的费用是一项不可避免的投资。为了使关键工作得以完成，且在翻修期间降低工人的安全风险，这项投资是必须的。它甚至可以解锁新的可能——允许你在屋顶被替换的时候修理烟囱，或者修剪突出的树木（让比喻更进一步）。一旦工作完成，将会有另一个团队来拆除脚手架，你会很乐意看到它被拆掉。
+租用脚手架并支付团队安装脚手架的费用是一项不可避免的投资。为了使关键工作得以完成，且在翻修期间降低工人的安全风险，这项投资是必须的。它甚至可以解锁新的可能——允许你在屋顶被替换的时候修理烟囱，或者修剪突出的树木（让比喻更进一步）。一旦工作完成，将会有另一个团队来拆除脚手架，你会很乐意看到它被拆掉。
 
 在旧系统替换的上下文中，这个脚手架由软件组件组成，这些组件可以简化或支持向目标系统架构演进的过程。与脚手架一样，一旦达到了目标架构，就不再需要这些软件组件，必须将其删除。
 
-一次性替换一个老旧的大型单体是有风险的，我们可以通过分几步替换来提高业务的安全性。可以采用 [价值流提取 Extract Value Stream](https://martinfowler.com/articles/patterns-legacy-displacement/extract-value-streams.html)和[产品线提取 Extract Product Lines](https://martinfowler.com/articles/patterns-legacy-displacement/extract-product-lines.html) 等模式来实现将功能或将数据拆分为它们的子集。要做到这一点，我们必须将整个单体拆开，这就需要在单体引入 “接缝”，以将其拆解成碎片。为单体引入接缝的组件就是一种过渡架构，因为一旦单体被替换，它们必然会消失，单体也并不需要它们来履行现有的职责。
+一次性替换一个老旧的大型单体是有风险的，我们可以通过分几步替换来提高业务的安全性。可以采用 [价值流提取 Extract Value Stream](../patterns-for-breaking-up-the-problem/extract-value-stream.md)和 [产品线提取 Extract Product Lines](../patterns-for-breaking-up-the-problem/extract-product-lines.md) 等模式来实现将功能或将数据拆分为它们的子集。要做到这一点，我们必须将整个单体拆开，这就需要在单体引入 “接缝”，以将其拆解成碎片。为单体引入接缝的组件就是一种过渡架构，因为一旦单体被替换，它们必然会消失，单体也并不需要它们来履行现有的职责。
 
-我们可以通过观察单体的不同部分如何相互通信，并在通信路径上放置一个组件来引入接缝，修改该组件就可以将流量转移或复制到其他部件中。例如[事件拦截 Event Interception](https://martinfowler.com/articles/patterns-legacy-displacement/event-interception.html)和[抽象分支 Branch by Abstraction](https://martinfowler.com/bliki/BranchByAbstraction.html)是分别用于事件和API通信的接缝。当我们创建这些接缝时，我们可以引入[老旧模拟 Legacy Mimics](https://martinfowler.com/articles/patterns-legacy-displacement/legacy-mimic.html)以向旧系统的通信流中引入新组件。
+我们可以通过观察单体的不同部分如何相互通信，并在通信路径上放置一个组件来引入接缝，修改该组件就可以将流量转移或复制到其他部件中。例如 [事件拦截 Event Interception](./event-interception.md) 和 [抽象分支 Branch by Abstraction](https://martinfowler.com/bliki/BranchByAbstraction.html) 是分别用于事件和API通信的接缝。当我们创建这些接缝时，我们可以引入 [遗留模拟 Legacy Mimics](./legacy-mimic.md) 以向旧系统的通信流中引入新组件。
 
-旧系统替换的最大挑战之一是处理旧系统经常直接访问的数据。如果可能的话，通过引入API来取代直接数据访问来引入接缝是明智的，比如采用[仓库 Repository](https://martinfowler.com/eaaCatalog/repository.html)模式。但当我们无法做到这一点时，我们需要复制系统的状态。一旦我们需要走这条路，[老旧模拟 Legacy Mimics](https://martinfowler.com/articles/patterns-legacy-displacement/legacy-mimic.html)和[事件拦截 Event Interception](https://martinfowler.com/articles/patterns-legacy-displacement/event-interception.html) 这两种方法都很有用。
+旧系统替换的最大挑战之一是处理旧系统经常直接访问的数据。如果可能的话，通过引入API来取代直接数据访问这种引入接缝的方法是明智的，比如采用 [仓库 Repository](https://martinfowler.com/eaaCatalog/repository.html) 模式。但当我们无法做到这一点时，我们需要复制系统的状态。一旦我们需要走这条路，[遗留模拟 Legacy Mimics](./legacy-mimic.md) 和 [事件拦截 Event Interception](./event-interception.md) 这两种方法都很有用。
 
 <table class="use-case-list dark-head">
   <caption>过渡架构常用模式</caption>
@@ -34,46 +34,47 @@
   </thead>
   <tbody>
     <tr>
-      <td class="用于">Creating Seams</td>
+      <td class="用于">创建解封</td>
       <td class="模式">
         <p>
-          <a href="event-interception.html">Event Interception</a>
+          <a href="event-interception.html">事件拦截 Event Interception</a>
         </p>
         <p>
-          <a href="legacy-mimic.html">Legacy Mimic</a>
+          <a href="legacy-mimic.html">遗留模拟 Legacy Mimic</a>
         </p>
         <p>
-          <a href="https://martinfowler.com/bliki/BranchByAbstraction.html">Branch by Abstraction</a>
+          <a href="https://martinfowler.com/bliki/BranchByAbstraction.html">抽象分支 Branch by Abstraction</a>
         </p>
         <p>
-          <a href="https://martinfowler.com/eaaCatalog/repository.html">Repository</a>
+          <a href="https://martinfowler.com/eaaCatalog/repository.html">仓库 Repository</a>
         </p>
         <p>
-          <a href="/bliki/DomainDrivenDesign.html">Anti-Corruption Layer</a>
+          <a href="/bliki/DomainDrivenDesign.html">防腐层 Anti-Corruption Layer</a>
         </p>
       </td>
     </tr>
     <tr>
-      <td class="用于">Replicating state: new ➔ old <br>("Keeping the lights on")</td>
+      <td class="用于">复制状态: new ➔ old <br>(“维持运转”)</td>
       <td class="模式">
         <p>
-          <a href="legacy-mimic.html">Legacy Mimic</a> (Service Consuming Mimic)
+          <a href="legacy-mimic.html">遗留模拟 Legacy Mimic</a> (模拟服务消费)
         </p>
       </td>
     </tr>
     <tr>
-      <td class="用于">Replicating state: old ➔ new</td>
+      <td class="用于">复制状态: old ➔ new</td>
       <td class="模式">
         <p>
-          <a href="legacy-mimic.html">Legacy Mimic</a> (Service Providing Mimic)
+          <a href="legacy-mimic.html">Legacy Mimic</a> (模拟服务提供)
         </p>
         <p>
-          <a href="event-interception.html">Event Interception</a>
+          <a href="event-interception.html">事件拦截 Event Interception</a>
         </p>
       </td>
     </tr>
   </tbody>
 </table>
+
 
 
 即便是心中有一个明确的目标架构，也存在很多途径可以到达那里。团队可以走的每一条不同的路径都可以或需要由不同的过渡架构来实现。这时，我们就需要对每条路径进行成本/收益分析，这种分析需要足够细致到我们能够察觉它是否会对选择产生影响。
@@ -90,52 +91,66 @@
 
 软件中的这种权衡被时间价值的重要性放大了。如果企业需要一个新的仪表板，把要被替换的旧系统中现存的数据与新系统中的数据进行集成，那么您可以通过在新仪表板中构建一个网关，将旧数据读取并转换为新仪表板所需的格式，从而更快地实现目标。一旦旧系统被移除，这个网关将被丢弃，但是在替换发生之前有一个集成仪表板的价值可能远远超过构建它的成本。即使价值与成本相近，我们还应该考虑到更换旧版所需时间可能比预期的更长。
 
-过渡架构的第二个价值是它可以如何降低遗留替换的风险。在一个客户管理系统中添加[事件拦截 Event Interception](https://martinfowler.com/articles/patterns-legacy-displacement/event-interception.html)将花费一定的成本，但一旦建立，就可以逐步迁移客户（例如使用[价值流提取 Extract Value Stream](https://martinfowler.com/articles/patterns-legacy-displacement/extract-value-streams.html)或[产品线提取 Extract Product Lines](https://martinfowler.com/articles/patterns-legacy-displacement/extract-product-lines.html) )。迁移客户的一个子集可以减少迁移中出现严重错误的可能性，并可以减少任何问题所产生的影响。此外，如果出现真正严重的问题，[事件拦截 Event Interception](https://martinfowler.com/articles/patterns-legacy-displacement/event-interception.html)使得很容易恢复到以前的状态。
+过渡架构的第二个价值是它可以如何降低遗留替换的风险。在一个客户管理系统中添加 [事件拦截 Event Interception](./event-interception.md) 将花费一定的成本，但一旦建立，就可以逐步迁移客户（例如使用 [价值流提取 Extract Value Stream](../patterns-for-breaking-up-the-problem/extract-value-stream.m) 或 [产品线提取 Extract Product Lines](../patterns-for-breaking-up-the-problem/extract-product-lines.md) )。迁移客户的一个子集可以减少迁移中出现严重错误的可能性，并可以减少任何问题所产生的影响。此外，如果出现真正严重的问题，[事件拦截 Event Interception](./event-interception.md) 使得很容易恢复到以前的状态。
 
 通常，团队在替换遗留的过程中应该总是考虑过渡架构，并集思广益地讨论构建临时软件的不同方法来发挥过渡架构的好处。然后，团队应该评估增加的时间价值和降低的风险所带来的好处，对比构建这种短命软件的成本。我们认为许多人会惊讶于临时软件能如此频繁的偿还付出的成本。
 
-## Example: Architecture Evolution
 
-This section explores the Middleware removal example introduced within the overview article, and describes how Transitional Architecture enabled the safe evolution of the system.
 
-### Legacy configuration
+## 案例：架构演进
 
-As described in the overview the as-is architecture consisted of the main Legacy system responsible for pricing and publishing products to the Legacy Storefront via some Integration Middleware. That middleware consumed product published events from a Legacy Queue and handled the long running orchestration of how the product was presented on the storefront. When the product is sold the Legacy Storefront calls the middleware which updates the products status within the underlying shared Legacy Database. The Legacy Middleware also stored its internal state within the Legacy Database which fed into critical reports via the data warehouse. See [Critical Aggregator](https://martinfowler.com/articles/patterns-legacy-displacement/critical-aggregator.html)
+本节探讨概述文章中介绍的中间件移除示例，并描述过渡架构如何实现系统的安全演进。
+
+### 遗留结构
+
+如概述所述，现有体系结构由主“Legacy 系统(Legacy System)“组成，该系统负责定价并通过一些“集成中间件(Integration Middleware)”将产品发布到”Legacy 店铺(Legacy Storefront)“。该中间件从”Legacy 队列(Legacy Q)“消费产品发布事件，并执行一个持续运行的流程来处理产品如何在商店上呈现。当产品售出时，”Legacy 店铺(Legacy Storefront)“会调用中间件，该中间件会更新底层共享”Legacy 数据库(Legacy Database)”中的产品状态。“Legacy 中间件(Legacy Middleware)”也将自己的内部状态存储在“Legacy 数据库(Legacy Database)”中，再通过数据仓库将其输入关键报表中。参见[关键聚合器 Critical Aggregator](./critical-aggregator.md)。
 
 ![img](https://martinfowler.com/articles/patterns-legacy-displacement/transitional-arch-legacy.png)
 
-### Target Architecture
 
-Within the target architecture the Legacy Storefront remains, but has some of it's responsibilities moved into a new Storefront Manager component. The Storefront Manager will consume business Events produced by the Asset Disposal Router when a product gets routed to that channel for sale, and will publish the product onto the Storefront using a new API. The Storefront Manager will be responsible for how the product is displayed within the Storefront. When products are sold, the Legacy Storefront calls the Storefront manager using the new API which then emits a business Event to be consumed by a down stream Asset Sale Processing component.
+
+### 目标架构
+
+在目标体系结构中，“Legacy 店铺(Legacy Storefront)”被保留了下来，但它的一些职责转移到了一个新的“店铺管理器(Storefront Manager)”组件中。当产品被路由到该渠道进行销售时，“店铺管理器(Storefront Manager)”会消费由”资产处置路由器(Asset Disposal Router)“生成的业务事件，并使用新的API将产品发布到“Legacy 店铺(Legacy Storefront)”上。“店铺管理器(Storefront Manager)”将负责产品在“Legacy 店铺(Legacy Storefront)”内的展示方式。当产品售出时，“Legacy 店铺(Legacy Storefront)”使用新的API调用“店铺管理器(Storefront Manager)”，然后“店铺管理器(Storefront Manager)”发出业务事件，以供下游”资产销售处理(Asset Sale Processing)“组件使用。
 
 ![img](https://martinfowler.com/articles/patterns-legacy-displacement/transitional-arch-target.png)
 
-### The first small enabling step
 
-The first bit of Transitional Architecture to be added was the Event Router component. This is an example of the [Event Interception](https://martinfowler.com/articles/patterns-legacy-displacement/event-interception.html) pattern. The Event Router created a technical seam that could be exploited to route products for sale via new components.
+
+### 实现的第一个小步骤
+
+要添加的第一个过渡架构是”事件路由(Event Router)“组件。它是 [事件拦截 Event Interception](./event-interception.md) 模式的一个示例。事件路由器创建了一个技术接缝，可以利用该接缝将产品通过新组件进行销售。
 
 ![img](https://martinfowler.com/articles/patterns-legacy-displacement/transitional-arch-state-1.png)
 
-### Introduction of the Storefront Manager
 
-The next step was to add the new Storefront Manager. Transitional Architecture was also added here, that served two very different purposes. Namely to isolate the new components from legacy concerns (e.g. data structures and messages) and to keep the lights on within the legacy world. For isolation (Anti-corruption Layer) an Event Transformer was created to transform the Legacy Message being routed by the Event Router into a new and clean business event format to be consumed by the Storefront Manager, and that would endure within the target architecture. The Storefront Manager and Legacy Storefront would collaborate via a new API, so this was added, as well as internal [Event Interception](https://martinfowler.com/articles/patterns-legacy-displacement/event-interception.html) so that when a product was sold, the Legacy Storefront would "call back" to the system that published that product. To keep the lights on two bits of Transitional Architecture were required. Firstly when products were sold new business events were published. These were consumed by a temporary Legacy Database Adapter that mimicked the Integration Middleware, updating the Legacy Database with the sale information. Secondly the MI Data Mimic was created. This was both an Event Interceptor and a Legacy Mimic - it intercepted events within the new API and updated the Legacy Database with the "state" information required by the business critical reports.
+
+### 引入店铺管理器(Storefront Manager)
+
+下一步是添加新的“店铺管理器(Storefront Manager)”。出于两个完全不同的目的，这里也要添加过渡架构。一个目的是为了将新组件与牵涉的遗留现状（例如数据结构和消息）隔开，另一个目的是为了维持遗留系统的运作。为了隔离（防腐层），创建一个”事件转换器(Event Transformer)“，用于将”事件路由(Event Router)“所转发的”Legacy 消息(Legacy Message)“转换为一种新的、干净的业务事件格式，交由“店铺管理器(Storefront Manager)”消费，且这部分将在目标架构中持续存在。“店铺管理器(Storefront Manager)”和“Legacy 店铺(Legacy Storefront)”将通过一个新的API进行协作，因此添加该 API 和内部的 [事件拦截 Event Interception](./event-interception.md)。这样，当产品售出时，“Legacy 店铺(Legacy Storefront)”会“回调”发布该产品的系统。为了维持遗留系统的运作，需要引入两种过渡架构。首先，当产品被售出的同时，新的业务事件会被发布出去。这些事件会被一个临时的“Legacy 数据库适配器(Legacy Database Adapter)”消费，该适配器模拟集成中间件，用销售信息更新”Legacy 数据库(Legacy Database)”。其次，创建一个“MI 数据模拟器(MI Data Mimic)”。它既是一个事件拦截器(Event Interceptor )，又是一个Legacy 模拟器(Legacy Mimic)——它在新API中拦截事件，并用业务关键报表所需的“状态”信息更新”Legacy 数据库(Legacy Database)”。
 
 ![img](https://martinfowler.com/articles/patterns-legacy-displacement/transitional-arch-state-2.png)
 
-### Business outcome - decommissioning of the Legacy Middleware
 
-The Legacy System was still responsible for determining which assets could be sold, and sending products for publishing, but over time the number of products routed to the new components was increased (see [Extract Product Lines](https://martinfowler.com/articles/patterns-legacy-displacement/extract-product-lines.html)) until 100% of the traffic was being processed without reliance on the Legacy Middleware. At this point it was possible to decommission the Legacy Middleware, leaving the new Storefront Manager and Transitional Architecture components in production.
+
+### 业务产出 - 停用遗留中间件(Legacy Middleware)
+
+“Legacy 系统(Legacy System)“仍然负责确定哪些资产可以出售，并发送产品以供发布，但随着时间的推移，发送到新组件的产品数量持续增加(参见 [提取产品线 Extract Product Lines](../patterns-for-breaking-up-the-problem/extract-product-lines.md))，直到所有的流量都不再依赖“Legacy 中间件(Legacy Middleware)”。这个时候，“Legacy 中间件(Legacy Middleware)”就可以被移除了，而新的“店铺管理器(Storefront Manager)”和过渡架构组件则被留在生产环境。
 
 ![img](https://martinfowler.com/articles/patterns-legacy-displacement/transitional-arch-state-3.png)
 
-### Introduction of the Asset Disposal Router
 
-After some time the new Asset Disposal Router component was brought on line. (Remembering that this example is somewhat simplified and drawn from the experiences of a much larger Legacy Displacement programme.) That component published the new business Events for products that could be consumed by the Storefront Manager. There was no longer a need for the Event Router as other components had taken over determining which assets were for disposal, nor the Event Transformer - so these components could be decommissioned. As the Legacy Middleware had been decommissioned the business critical reports had been changed to use data from the new components (see [Revert to Source](https://martinfowler.com/articles/patterns-legacy-displacement/revert-to-source.html)) and so the MI Data Mimic component could also be decommissioned.
+
+### 引入资产处置路由器(Asset Disposal Router)
+
+一段时间后，新的”资产处置路由器(Asset Disposal Router)“组件上线。（请记住，这个例子有些简化，并借鉴了一个更庞大的遗留置换方案的经验。）该组件发布产品的新业务事件以供“店铺管理器(Storefront Manager)”消费。”事件路由(Event Router)“和”事件转换器(Event Transformer)“都不再需要了，因为其他组件已经接管了决定哪些资产需要处置的相关工作，因此这些组件可以退役了。由于“Legacy 中间件(Legacy Middleware)”已经退役，业务关键报表已更改为使用来自新组件的数据（请参见[代码还原 Revert to Source](./revert-to-source.md))因此“MI 数据模拟器(MI Data Mimic)”组件也可以退役了。
 
 ![img](https://martinfowler.com/articles/patterns-legacy-displacement/transitional-arch-state-4.png)
 
-### Safe arrival at the target architecture
 
-Sometime later the new Asset Sale Processing component was brought online which took over the last set of responsibilities from the Legacy System (within scope of this example). At that time the last of the Transitional Architecture, the Legacy Database Adapter, could be removed. The business Events produced by the Storefront Manager were consumed by the Asset Sale Processing component.
+
+### 安全抵达目标架构
+
+不久后，新的“资产销售处理(Asset Sale Processing)”组件上线，它接管了“Legacy 系统(Legacy System)”的最后一组职责（在本示例的范围内）。到那时，最后一个过渡架构，“Legacy 数据库适配器(Legacy Database Adapter)”，也可以被删除了。“店铺管理器(Storefront Manager)”生成的业务事件由“资产销售处理(Asset Sale Processing)”组件使用。
 
 ![img](https://martinfowler.com/articles/patterns-legacy-displacement/transitional-arch-target.png)
