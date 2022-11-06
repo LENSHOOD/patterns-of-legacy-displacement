@@ -3,104 +3,106 @@
 
 （副标题）对遗留软件系统的有效现代化
 
-*When faced with the need to replace existing software systems, organizations often fall into a cycle of half-completed technology replacements. Our experiences have taught us a series of patterns that allow us to break this cycle, relying on: a deliberate recognition of the desired outcomes of displacing the legacy software, breaking this displacement in parts, incrementally delivering these parts, and changing the culture of the organization to recognize that change is the unvarying reality.*
+*当面临替换现有软件系统的需求时，组织通常会陷入一种 “半完成” 技术替换的循环。经验教会了我们一系列模式，使我们能够打破这种循环，我们依靠的是：刻意的识别出替换遗留软件的预期结果，将遗留软件替换的过程打散为各个部分，并逐步交付这些部分，同时改变组织文化，以认识到现实是只有变革才是不变的。*
 
 ---
 
-We have spent most of the last couple of decades helping large organizations overhaul their legacy systems. In doing this we've learned a great deal about what works and seen many paths that lead to failure. We've decided to set aside some time to writing down what we've learned in the form of various patterns that we've seen used.
+在过去的几十年中，大部分时间我们都在帮助大型组织彻底改造其遗留系统。在这种过程中，我们领悟出了许多能真正奏效的途径，也看到了许多导致失败的途径。我们决定专门花一些时间，来记录我们从使用过的各种模式里所领悟的内容。
 
-This article acts as the hub for these patterns. Too often we've seen organizations stuck on a treadmill of half-done legacy replacement efforts. We think the key to breaking this cycle requires four activities done somewhat in sequence but mostly iteratively over a company's life. We use these activities as our primary structure for organising the patterns that we describe.
+本文可以充当这些模式的汇集。我们经常看到一些组织在遗留替换工作完成一半的情况下陷入困境。我们认为，打破这一循环的关键是完成四项活动，这四项活动会在在公司的生命周期中，按顺序甚至更多的是迭代往复的进行。我们以这种活动作为主要结构，来组织我们所描述的模式。
 
-We've always believed that effective software development involves gradual release of valuable features, and we think the same is true of writing - [especially in the age of the web](https://martinfowler.com/bliki/EvolvingPublication.html). We've started with this narrative article and will gradually add patterns as we write up their details, as well as other examples that show how they combine. We can't promise any dates, since our priority is our client work, which is not short of legacies to displace. If you are interested in hearing about more parts of this work as they appear, they will be announced on [Martin's twitter feed](https://www.twitter.com/martinfowler), and this site's [RSS feed](https://martinfowler.com/feed.atom).
+我们一直认为，有效的软件开发包括循序渐进的发布有价值的特性，我们认为写作也是如此，[尤其是在网络时代](https://martinfowler.com/bliki/EvolvingPublication.html)。我们以这篇叙述性文章为始，将在撰写它们的细节时逐渐添加各种模式，和展示它们如何组合起来的例子。我们无法承诺任何截稿日，因为我们的首要任务是客户工作，需要我们做的遗留替换工作还真不少。如果你有兴趣了解这部作品的更多部分，它们将在[Martin 的 Twitter feed](https://www.twitter.com/martinfowler)上，以及此网站的[RSS源](https://martinfowler.com/feed.atom)上发布。
 
 
 
-## The Legacy Replacement Treadmill
+## 遗留替换之踏车* The Legacy Replacement Treadmill
 
-We have worked with many organizations who have made multiple attempts at removing legacy systems. In one fairly typical organization they had been through a whole series of 3-5 year long modernization programmes. Each time they would define a new tech approach, and then work towards that new approach as part of a large multi year modernization programme.
+> *这里用循环往复的蹋车指代组织反复尝试遗留替换不得其法而所做的无用功
 
-At some point during each programme they hit a crisis point where changing business needs would overtake their current tech strategy and hence trigger the need to start over. Where they had taken a waterfall "big bang" approach to the programme this meant abandoning the majority of the work. In other cases with more incremental delivery approaches, the approach taken was to just add a layer of slightly newer technologies on top of an already complex landscape. For both scenarios they were unable to decommission any of their legacy stack, key business goals for cost savings and risk reduction remained unmet, an all too common outcome for many legacy replacement efforts.
+我们与许多曾多次尝试删除遗留系统的组织有过合作。在一个相当典型的组织中，他们会经历一系列3-5年的现代化计划。每次他们都会定义一种新的技术方法，然后将其作为一项大型的、持续多年的现代化计划的一部分。
 
-Several key factors were in play in their repeated failures.
+每个计划都存在某个阶段，他们都会遇到一个危机点，即不断变化的业务需求会赶超他们当前的技术战略，从而导致需要重新开始。为了应对该危机，一种情况是，他们的整个计划开始进行了瀑布式的“大爆炸”，这意味着先前大部分工作被丢弃了。另一种情况下，他们采取了更加增量式的交付手段，在已经很复杂的系统全景之上再添加一层稍微更新的技术。对于这两种情况，他们都无法除役任何遗留的系统栈，实现成本节约和风险降低的关键业务目标仍然没有实现，上述现象对于许多遗留替换工作来说是一个非常常见的结果。
 
-Firstly the poor outcomes they were seeing were largely a product of the organization; specifically it's leadership, structure and ways of working. They thought by just selecting newer technologies, but leaving everything else more or less unchanged, that they would get different outcomes from the past. In hindsight this was clearly unrealistic.
+有几个关键因素导致他们屡屡失败。
 
-Secondly the modernization was to be delivered by a large change programme, itself comprising a series of projects and teams. These projects were treated as orthogonal to any BAU (Business As-Usual) efforts. So BAU delivery of business requirements continued against the existing systems while the new project teams delivered against a set of requirements agreed at the beginning of the replacement programme.
+首先，他们看到的糟糕结果主要是该组织的产物；具体的说，这涉及到领导力、组织结构以及工作方式。他们认为，只要选择更新的技术，而让其他东西或多或少保持不变，就会得到与过去不同的结果。事后看来，这显然是不现实的。
 
-Over time they saw a widening gap between what the business actually needed and what was actually signed off at the start of the programme. The longer each programme ran for, the more acute this gap between the programme plan vs. BAU and future needs. While change control processes were in place to add new requirements to a programme, these were hugely time-consuming and, due to upfront supplier contracts, prohibitively expensive.
+其次，现代化改造将由一个大型变革计划来实现，该计划本身包括一系列项目和团队。而这些项目被视为与任何BAU（日常工作）正交。因此，BAU继续根据现有系统交付业务需求，而新项目团队则根据替换计划开始时商定的一组需求来交付。
 
-A third key factor in several of the failures was the desire for [Feature Parity](https://martinfowler.com/articles/patterns-legacy-displacement/feature-parity.html) with the existing set of systems and business processes. These attempts began by promising to give the business exactly what they had today with somehow, behind the covers, the technology having been "improved". Having by then seen multiple failures and being concerned about disruption, the business leaders felt this was a lower risk strategy. The challenge here was even defining and agreeing current "as is" functionality was a huge effort and it led to a plan for a large single "big bang" cut-over release.
+随着时间的推移，他们看到业务的实际需要与计划开始时所签订内容之间的差距越来越大。变革计划运转的时间越长，其与BAU和未来需求之间的差距就越大。虽然为计划增加新需求的变更控制流程已经就位，但这些过程非常耗时，而且由于预先签订了供应商合同，变更成本也十分高昂。
 
-Our observations from this and many other organizations is that technology is at most only 50% of the legacy problem, ways of working, organization structure and leadership are just as important to success.
+某些失败的第三个关键因素是对现有的系统和业务流程[特性对等 Feature Parity](./patterns-for-breaking-up-the-problem/feature-parity.md)的渴望。这种尝试开始于他们承诺将以某种在幕后“改进”技术的方式，为企业提供他们今天所拥有的一切。在多次的失败经历结合对业务中断的担忧后，商业领袖们认为这是一种风险较低的策略。这里的挑战在于哪怕是定义和同意与当前的“原样”功能，都是一项巨大的努力，它导致了一个大型单一“大爆炸”切换发布的计划。
 
-## Breaking the cycle
+我们从许多组织的观察中发现，技术最多只占遗留问题的50%，工作方式、组织结构和领导能力对成功同样重要。
 
-Clearly there is a need to break out of the cycle of "technology replacement programmes". In short organizations need to be able to continue to deliver business needs while at the same time replacing outdated technology, all against a background of accelerating technological change and a tougher competitive climate.
+## 打破循环 Breaking the cycle
 
-There are a series of approaches we have found can help with these challenges. They aid with the challenge of breaking the problem into smaller parts to allow delivery of new requirements in parallel with improved technology. Broadly speaking they fit into four categories:
+显然，有必要打破“技术替代计划”的循环。简而言之，组织需要能够在满足业务需求的同时替换过时的技术，这一切都是在技术变革加速和竞争环境更加激烈的背景下进行的。
 
-1. Understand the outcomes you want to achieve
-2. Decide how to break the problem up into smaller parts
-3. Successfully deliver the parts
-4. Change the organization to allow this to happen on an ongoing basis
+我们发现有一系列方法可以帮助应对这些挑战。它们能帮助解决如何将问题分解为更小部分的挑战，以便在改进技术的同时交付新的需求。一般来说，它们分为四类：
 
-### Understand the outcomes you want to achieve
+1. 明白你想要实现何种结果
+2. 决定如何将问题分解成更小的部分
+3. 成功交付部件
+4. 进行组织变革，以使上述过程能持续发生
 
-It is vital for an organization to agree the outcomes they want to achieve when tackling legacy. While this may seem obvious, all too often different parts of an organization can have quite different views on the desired outcomes. Most legacy modernization initiatives involve several of the outcomes we list below, but it's essential to identify which ones are the priority before setting out on the journey.
+### 明白你想要实现何种结果
 
-#### Reducing the cost of change
+对于一个组织来说，在处理遗留时，至关重要的就是对他们想要实现的结果达成一致。虽然这看起来很明显，但一个组织的不同部分往往对期望的结果有着截然不同的看法。大多数遗留系统现代化的行动都涉及我们在下面列出的几个结果，但在踏上旅程之前，必须确定哪些是优先事项。
 
-A key tipping point in many organizations in deciding to tackle legacy is that desired business changes start to cost far more than any anticipated benefits, either due to opportunity cost (aka delay) or implementation cost. An early warning sign is having to spend weeks and 10's or 100's of thousands to make a change to a website that brings only a small increase in business performance.
+#### 降低变更成本
 
-At this point it is often no longer possible to justify making any changes that don't deliver large returns on investment. In other words the state of the technology has started to dictate the size of change the business can make. For many organizations this means the difference between making a 'BAU' change or having to instigate a larger project. These larger projects then become magnets for all the small changes that weren't previously justifiable thus increasing their scope, cost and risk
+许多组织在决定处理遗留时的一个关键转折点是，所需的业务变更成本，可能是机会成本（又名延迟）或实施成本，开始远高于任何预期收益。一个早期预警信号是，需要花费数周或更多的时间来对一个网站进行更改，而这只会带来业务绩效的小幅增长。
 
-#### Improving the business process
+这时，通常再也无法辩解称变更无法得到大的投资回报。换句话说，技术状况已经开始决定企业可以做出的变更的大小。对于许多组织来说，这意味着进行“BAU”变更与必须发起更大项目之间的区别。然后，这些大型项目会吸引所有以前不合理的小变化，从而增加其范围、成本和风险。
 
-We have seen lots of examples of where business processes have evolved next to legacy systems, the processes become tightly coupled to the way that system works with constraints in the system and often workarounds "off system" shaping the business processes people follow to do their jobs.
+#### 改进业务流程
 
-One example we saw is an airline check-in system that used "green screen" terminals, due to constraints in the legacy system the process had to be followed in a strict order meaning corrections or mistakes meant starting the check-in process over. Also originally the airline had not offered connecting flights, when this was added it had to be done as a separate workflow in the legacy system due to constraints in that technology. So if, at check-in, a passenger did not mention they had a connecting flight the wrong process was followed including printing the wrong baggage tags, only after this would the system flag the connecting flight. The jobs of the check-in staff and the passenger's experience could have been much improved by changing the process, but this was impossible due to the legacy system.
+我们已经看到了许多业务流程紧随着遗留系统而演化的例子，这些流程与系统 “由于自身约束而导致的” 工作方式紧密耦合，并且通常采用“系统外”的解决方案来构建人们为完成工作而遵循的业务流程。
 
-Given this it should be no surprise that to update and change business processes in turn requires changes to the how the supporting technology works. Trying to change working processes without altering the technology often results in "off system" working where people resort to extracting data into spreadsheets or similar, working on it there, before importing the data back into the legacy system.
+我们看到一个使用“绿屏”终端的航空公司值机系统的例子，由于遗留系统的限制，值机流程必须遵循严格的顺序，这意味着更正或错误意味着重新开始值机流程。同样，最初该航空公司还没有提供转机航班，当增加这一功能时，由于该技术的限制，它必须在遗留系统中作为一个单独的工作流程来完成。因此，如果在办理登机手续时，乘客没有提及他们有转机航班，则会遵循错误的流程，包括打印错误的行李标签，只有在这之后，系统才会标记转机航班。通过改变流程，值机人员的工作和乘客的体验本可以大大改善，但遗留系统让这变得的不可能发生。
 
-In one organization the whole stock ordering process was actually done on a Microsoft Access DB running on the team managers PC. They had become frustrated as the legacy system could not support the newer working practices of their suppliers. They would do an import and export of the data a few times per week, in the meantime the rest of the organization would see out of date figures as no one realized what was going on.
+鉴于此，更新和更改业务流程却反过来要求更改支持性技术的工作方式也就不足为奇了。试图在不改变技术的情况下改变工作流程通常会导致“系统外”工作，即人们在将数据导入遗留系统之前，将数据提取到电子表格或类似表格中，在那里工作。
 
-It is worth noting here that requirements for a replacement system to support import and export of data can often have a root cause in this kind of workaround.
+有一个组织中，整个库存订购流程实际上是在一个运行在团队经理PC上的Microsoft Access DB上完成的。由于遗留系统无法支持其供应商的新工作实践，他们感到很沮丧。他们每周会将数据导入和导出数次，与此同时，组织的其他成员将看到过时的数据，因为没有人意识到发生了什么。
 
-#### Retire an old system
+这里值得注意的是，对替换系统需要支持数据导入导出功能的需求，其根因通常都源于上述这种变通。
 
-The need to retire an old system is a common reason for legacy modernization. This is often driven by challenges in supporting older hardware or software, with issues such as escalating support costs and reaching end-of-life on support contracts for both hardware and software.
+#### 淘汰旧系统
 
-We've found it useful to view the retirement of old systems through the lens of the business. So a system being built on old technology is not in of itself sufficient reason for replacement. Instead we need to look at the business impact this creates such escalating run costs or the risk created by lack of support or knowledge of the system.
+旧系统需要被淘汰掉是遗留系统现代化的一个常见原因。这通常是由支持较旧的硬件或软件方面的挑战所驱使的，例如不断增加的支持成本以及硬件和软件的支持合同到期。
 
-While some organizations do plan well for obsolescence of older technologies, many seem to ignore the issue until it reaches crisis point. In turn, this tends to drive organizations towards modernization approaches that seem like low disruption options or quick wins, these are usually anti-patterns and we describe some of these pitfalls later.
+我们发现，从业务的角度来观察旧系统的淘汰是很有用的。因此，建立在旧技术基础上的系统本身并不足成为被替换的原因。相反，我们需要了解由于运行成本不断上升而产生的业务影响，或是缺乏对系统的支持或知识所带来的风险。
 
-We've been shocked over the years at how many large organizations are running their businesses on unsupported hardware and software, buying spare parts on eBay is surprisingly common story to hear. If you have legacy tech it is well worth doing a proper survey and creating a calendar featuring the various end-of-life support dates.
+虽然一些组织确实做好了淘汰旧技术的计划，但许多组织似乎会忽略一些问题，直到到达危机点。反过来，这往往会推动组织走向现代化方法，这些方法看起来似乎能减少业务中断或是快速达成目的，但这通常是反模式的，我们稍后将描述其中的一些陷阱。
 
-While many organizations give retirement of old systems as a key outcome for legacy modernization it is not uncommon to find this doesn't actually happen, the legacy is still being used at the end with the associated business goals remaining unmet.
+多年来，我们对许多大型组织使用不受支持的硬件和软件运营业务感到震惊，在eBay上购买备件是一个令人惊讶的常见故事。如果你有遗留技术，那么做一个适当的调查并创建一个日历来记录各种生命周期结束的支持日期是非常值得的。
 
-#### Imminent Disruption
+尽管许多组织将旧系统的退役作为遗留系统现代化的一个关键结果，但并不少见的是，这种情况并未实际发生，遗留系统最终仍在使用，相关的业务目标仍未实现。
 
-For some organizations the actual tipping point on tackling legacy can arise due to an external factor such as a regulatory change, a new "start up" competitor or a significant change by an existing competitor. It's often at this point when faced with a "must do" change it becomes clear the money and the time required to respond has grown too large.
+#### 迫在眉睫的中断
 
-The external event is the thing that makes clear to an organization's leadership that they no longer have the ability to make changes for a Proportionate Cost.
+对于一些组织来说，由于外部因素（如监管变化、新的初创竞争对手或现有竞争对手的重大变化），解决遗留问题的实际临界点可能会出现。通常，当面临“必须要做”的改变时，很明显，做出反应所需的资金和时间就变得大多了。
 
-#### Newer technology
+外部事件向组织的领导层表明，他们不再有能力按比例成本（Proportionate Cost）做出改变了。
 
-Adoption of newer technology should not be the reason for legacy modernization, just having newer tech for it's own sake is rarely a key goal for any organization. Rather it should be selected and chosen in ways that best meet the current and future needs of the business. A challenge here is that pace of technological change is accelerating, the "useful" lifetime of technology is getting shorter. The actual definition of "useful" depends on the organization, but in general we need to consider things such as:
+#### 更新的技术
 
->We want to be like Netflix
+采用新技术不应该成为遗留系统现代化的原因，仅仅为了技术本身而拥有新技术很少会成为任何组织的关键目标。相反，它应该以最符合企业当前和未来需求的方式进行选取和选择。这里的一个挑战是，技术变革的步伐正在加快，技术的“有用”寿命正在缩短。“有用”的实际定义取决于组织，但一般来说，我们需要考虑以下事项：
+
+- 竞争优势
+- 匹配竞争对手或市场产品
+- 加快变革步伐
+- 更便宜变更成本
+- 更低的运行成本
+
+我们今天做出的关于最佳和最有用技术的选择很可能会在相对较短的时间内被更好的替代方案所取代。这使得在寻找满足未来需求的技术方面做出正确的决定具有潜在的风险。
+
+这里的一个好方法是不要做出任何2-3年内无法轻易“完成”的选择。这对技术选择以及总体设计和方法都有影响。当我们意识到这种加速的变变革步伐时，选择一个具有5-10年回报时间的大型平台是很难证明其正确性的。
+
+> 我们想要像 Netflix 一样
 >
->One issue we have seen multiple times is what we call "Netflix Envy". This is where the technology leaders of an organization fixate on being like Netflix or some other large successful technology company. This means they try to emulate the ways of working or choose the same technology solutions. While this might be appropriate if they are also in the business of streaming movies often times this leads to the selection of inappropriate technologies. These technologies often come with the ability to scale, but also a higher degree of complexity and cost that simply isn't needed for most businesses.
-
-- Allows a competitive advantage
-- Match competitor or market offerings
-- Allows a Faster pace of change
-- Cheaper to change
-- Has a lower run cost
-
-The choices we make today about the best and most useful technology will likely be overtaken by better alternatives in a relatively short timeframe. This makes getting the decision right on finding technology to meet future needs potentially very risky.
-
-A good approach here is to not make any choices that cannot easily be "done over" with 2-3 years. This has implications for both technology selection but also for overall design and approach. Selecting a huge platform with a 5-10 years pay back time is hard to justify when we acknowledge this accelerating pace of change.
+> 我们多次看到的一个问题是所谓 “Netflix嫉妒”。即一个组织的技术领导者专注于像 Netflix 或其他一些成功的大型科技公司那样。这意味着他们试图模仿其工作方式或选择相同的技术解决方案。虽然如果他们也从事流媒体电影业务，这可能是合适的，但这往往会导致选择不合适的技术。这些技术通常具有可扩展的能力，但也具有更高的复杂性和成本，这是大多数企业所不需要的。
 
 ### Decide how to break the problem into smaller parts
 
