@@ -143,7 +143,7 @@
 
 ### 引入资产处置路由器(Asset Disposal Router)
 
-一段时间后，新的”资产处置路由器(Asset Disposal Router)“组件上线。（请记住，这个例子有些简化，并借鉴了一个更庞大的遗留置换方案的经验。）该组件发布产品的新业务事件以供“店铺管理器(Storefront Manager)”消费。”事件路由(Event Router)“和”事件转换器(Event Transformer)“都不再需要了，因为其他组件已经接管了决定哪些资产需要处置的相关工作，因此这些组件可以退役了。由于“Legacy 中间件(Legacy Middleware)”已经退役，业务关键报表已更改为使用来自新组件的数据（请参见[代码还原 Revert to Source](./revert-to-source.md))因此“MI 数据模拟器(MI Data Mimic)”组件也可以退役了。
+一段时间后，新的”资产处置路由器(Asset Disposal Router)“组件上线。（请记住，这个例子有些简化，并借鉴了一个更庞大的遗留置换方案的经验。）该组件发布产品的新业务事件以供“店铺管理器(Storefront Manager)”消费。”事件路由(Event Router)“和”事件转换器(Event Transformer)“都不再需要了，因为其他组件已经接管了决定哪些资产需要处置的相关工作，因此这些组件可以退役了。由于“Legacy 中间件(Legacy Middleware)”已经退役，业务关键报表已更改为使用来自新组件的数据（请参见[回归本源 Revert to Source](./revert-to-source.md))因此“MI 数据模拟器(MI Data Mimic)”组件也可以退役了。
 
 ![img](https://martinfowler.com/articles/patterns-legacy-displacement/transitional-arch-state-4.png)
 

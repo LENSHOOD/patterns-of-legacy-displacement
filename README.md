@@ -104,56 +104,64 @@
 >
 > 我们多次看到的一个问题是所谓 “Netflix嫉妒”。即一个组织的技术领导者专注于像 Netflix 或其他一些成功的大型科技公司那样。这意味着他们试图模仿其工作方式或选择相同的技术解决方案。虽然如果他们也从事流媒体电影业务，这可能是合适的，但这往往会导致选择不合适的技术。这些技术通常具有可扩展的能力，但也具有更高的复杂性和成本，这是大多数企业所不需要的。
 
-### Decide how to break the problem into smaller parts
+### 决定要如何将问题分解成更小的部分
 
-Broadly speaking this involves finding the right "seams" in the current business and technical architecture. Importantly, you have to consider how elements of the current solution map to different business capabilities. For legacy systems this usually means discovering how one large technical solution meets multiple business needs and then seeing if it is possible to extract individual needs for independent delivery using a new solution. Ideally these should be deliverable with minimal dependencies on each other.
+从广义上讲，这涉及到在当前的业务和技术架构中找到合适的“接缝”。重要的是，你必须考虑当前解决方案的元素如何映射到不同的业务能力上。对于遗留系统，这通常意味着探索一个大型技术解决方案如何满足多个业务需求，然后看看是否可以提取出单一需求并使用新的解决方案独立交付。理想情况下，这应该在相互依赖最小的情况下交付。
 
-A common objection is that finding these seams is too difficult. While we agree it is challenging at first, we have found it to be a better approach than the alternatives which all too often result in Feature Parity and Big Bang releases. We've also observed that many organizations rule out such an approach because they are looking at the technology, or the business processes, in isolation. Changing just one part of the technology, or updating just one business process independently is likely to fail, but if we can consider and then implement the two together there are ways to "eat the elephant".
+一个普遍的反对意见是，寻找这些接缝太难了。虽然最初我们同意这是一个挑战，但我们发现它比那些经常导致特性对等(Feature Parity)和大爆炸(Big Bang)发布的替代方案更好。我们还观察到，许多组织排除了这种方法，因为他们孤立地看待技术或业务流程。仅更改技术的一部分，或仅独立更新一个业务流程都可能失败，但如果我们可以考虑并同时实现这两者，就有办法 “吃掉大象”([Eat the Elephant](https://spicerfacilitation.ca/eating-an-elephant-one-bite-at-a-time/))。
 
-#### Getting Started
+#### 开始分解
 
-Legacy modernization can seem a most daunting proposition at the start of the journey. Like any journey, we must first try and understand the initial direction to take. Also, like all journeys, you must start from where you are. One common problem we encounter is that we often seem to start in a forest with no view of the landscape ahead and therefore no idea of the direction to take. The first step, then, is to climb a tree and take a good look around! This means getting as good an understanding of the current systems and architecture as possible in the shortest amount of time. This is often super hard to do and it's easy to get bogged down in too much detail.
+遗留系统现代化在旅程开始时似乎是一个最令人畏惧的命题。像任何旅程一样，我们必须首先尝试并理解最初的方向在哪里。而且，就像所有的旅程一样，你必须从你所处的位置开始。我们遇到的一个常见问题是，我们似乎常常从一片森林开始，看不到前方的全景，因此也不知道该走什么方向。那么，第一步就是爬上一棵树，好好看看四周！这意味着在最短的时间内尽可能地了解当前的系统和架构。这通常是非常难做到的，而且很容易陷入太多细节中。
 
->Event Storming - The Swiss Army Knife of modern process mapping
+幸运的是，有许多真正有用的工具可以协同使用，来获得足够好的理解从而让我们得以继续。这些工具将在其他地方详细讨论，但如下摘要列表将包括[事件风暴 Event Storming](./patterns-for-understanding-the-problem/event-storm.md)，[Wardley 映射](https://blog.gardeviance.org/2015/02/an-introduction-to-wardley-value-chain.html)、业务能力映射(Business Capability Mappin)和域映射(Domain Mapping)。请注意，在本列表中，我们主要关注的是业务概念如何映射到系统架构中，进而了解该[架构如何支持价值生成](https://martinfowler.com/articles/value-architectural-attribute.html). 这是一个经常缺失的视图，尤其是对于遗留系统。
+
+<table class="dark-head">
+<caption>理解问题的模式</caption>
+<tbody><tr><td><a href="./patterns-for-understanding-the-problem/identify-business-capabilities.md">识别业务能力 Identify Business Capabilities</a>&nbsp;†</td><td>识别组织中稳定的部分，以构建团队和软件</td></tr>
+<tr><td><a href="./patterns-for-understanding-the-problem/create-town-plan.md">创建城市规划 Create Town Plan</a>&nbsp;†</td><td>识别组织中稳定的部分，以构建团队和软件</td></tr>
+<tr><td><a href="./patterns-for-understanding-the-problem/value-stream-map.md">价值流图 Value Stream Map</a>&nbsp;†</td><td>描述用户如何完成其工作的工件</td></tr>
+<tr><td><a href="./patterns-for-understanding-the-problem/event-storming.md">事件风暴 Event Storm</a>&nbsp;†</td><td>用于理解业务流程的技术</td></tr>
+</tbody></table>
+
+† 目前仅预留桩
+
+>事件风暴-现代流程图的瑞士军刀
 >
->Much has been written on the technique and the authors find it a very versatile tool which can be used in multiple contexts. Indeed the authors have used it for value stream mapping and to visualise the path to production in addtion to mapping out business processes and domains.
+> 关于这项技术已经有很多文章，作者发现它是一个非常通用的工具，可以在多种环境中使用。事实上，除了绘制业务流程和领域之外，作者还将其用于价值流映射和可视化生产路径。
 
-Fortunately there are a number of really useful tools that can be used collaboratively to get a good enough understanding to proceed. These tools are discussed in detail elsewhere but a summary list would include [Event Storming](http://ziobrando.blogspot.com/2013/11/introducing-event-storming.html), [Wardley Mapping](https://blog.gardeviance.org/2015/02/an-introduction-to-wardley-value-chain.html), Business Capability Mapping and Domain Mapping. Notice in this list that we are primarily looking at how business concepts are mapping into the systems architecture, and in turn understanding how that [architecture supports value generation](https://martinfowler.com/articles/value-architectural-attribute.html). This is a view that is often missing especially for legacy systems.
+具体地说，我们发现人们经常在遗留系统的边界停止探索，好像 “恶龙来了”，便不再继续。如果不跨越边界，不去揭露遗留系统如何支持（或阻碍）业务流程和活动，则很难找到并提取要交付的切片（分解更小的部分）。
 
-| [Identify Business Capabilities](https://martinfowler.com/articles/patterns-legacy-displacement/identify-business-capabilities.html) † | Identify stable parts of the organisation to structure teams and software around |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Create Town Plan](https://martinfowler.com/articles/patterns-legacy-displacement/create-town-plan.html) † | Identify stable parts of the organisation to structure teams and software around |
-| [Value Stream Map](https://martinfowler.com/articles/patterns-legacy-displacement/value-stream-map.html) † | Artefact that describes how users accomplish their work      |
-| [Event Storm](https://martinfowler.com/articles/patterns-legacy-displacement/event-storming.html) † | Technique used to understand business processes              |
+另一个经常被忽视且非常有价值的信息来源是系统本身的用户。事实上，在作者的经验中，这通常是你可以发现惊人数量的有用信息的地方，尤其是暴露了通常围绕旧系统构建的许多变通方法和影子IT生态系统，即*实际*运行业务的 Access 数据库和版本化的 Excel 电子表格。客户旅程图(Customer Journey Mapping)、创建服务蓝图(Service Blueprints)和价值流图(Value Stream Mapping )是用于显示此类细节的良好工具。
 
-† currently only a stub
-
-Specifically we find people often stop discovery style activities at the boundaries of the legacy systems, "here be dragons", go no further. Without crossing the boundary and uncovering how legacy systems support (or hinder) business process and activities it is challenging to find and extract thin slices to deliver.
-
-Another oft overlooked and very valuable source of information are the users of the systems themselves. In fact, in the authors experience this is often where you can find the surprising amounts of useful stuff and especially expose the many workarounds and shadow IT ecosystem that usually builds up around older systems - that is, the Access Databases and versioned Excel Spreadsheets that *actually* run the business. Customer Journey Mapping, creating Service Blueprints and Value Stream Mapping are tools that have been used to good effect to surface this kind of detail.
-
-| [Extract Product Lines](https://martinfowler.com/articles/patterns-legacy-displacement/extract-product-lines.html) | Identify and separate systems by product line.               |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Extract Value Streams](https://martinfowler.com/articles/patterns-legacy-displacement/extract-value-streams.html) † | Identify and separate key value streams                      |
-| [Feature Parity](https://martinfowler.com/articles/patterns-legacy-displacement/feature-parity.html) | Replicate existing functionality of a legacy system using a new technology stack. |
-| [The One True Ring](https://martinfowler.com/articles/patterns-legacy-displacement/one-true-ring.html) † | Segment the problem by identifying unique and shared business capabilities |
+<table class="dark-head">
+<caption>拆解问题的模式</caption>
+<tbody><tr><td><a href="./patterns-for-breaking-up-the-problem/extract-product-lines.md">产品线提取 Extract Product Lines</a></td><td>按产品线识别和分割系统</td></tr>
+<tr><td><a href="./patterns-for-breaking-up-the-problem/extract-value-streams.md">Extract Value Streams 价值流提取</a>&nbsp;†</td><td>按价值流识别和分割系统</td></tr>
+<tr><td><a href="./patterns-for-breaking-up-the-problem/feature-parity.md">Feature Parity 特性对等</a></td><td>
+使用新的技术堆栈复制一个遗留系统的现有功能</td></tr>
+<tr><td><a href="./patterns-for-breaking-up-the-problem/one-true-ring.md">The One True Ring 至尊魔戒</a>&nbsp;†</td><td>通过识别独特和共享的业务能力来细分问题</td></tr>
+</tbody></table>
 
 † currently only a stub
 
-### Successfully deliver the parts
+### 成功地交付组件
 
-The need for faster change and the ability to incrementally deliver and independently change elements of the business without large dependencies often leads to "agile" delivery approaches alongside a microservices based architecture. Continuous Delivery becomes a must have for these individually deployable components. What makes this challenging beyond just a normal piece of software delivery is finding strategies for cut over from, co-existence with and, ultimately replacement of elements of an existing large solution. Several successful strategies exist including parallel run, fork on ingress and diversion of flow.
+对更快变化的需要，以及增量式交付和不涉及大的依赖的独立变更业务元素的能力，往往会通向 "敏捷 "交付方法和基于微服务的架构。持续交付成为这些可单独部署的组件的必备条件。这不仅仅是一个普通的软件交付的挑战，而是要找到从现有的大型解决方案的元素切入、与之共存并最终替代的策略。有几种成功的策略，包括并行运行(parallel run)、入口分叉(fork on ingress)和流量转移(diversion of flow)。
 
-| [Critical Aggregator](https://martinfowler.com/articles/patterns-legacy-displacement/critical-aggregator.html) | Combine data from different parts of the business to support making critical decisions |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Canary Release](https://martinfowler.com/articles/patterns-legacy-displacement/canary-release.html) † | Roll out a change to a subset of users                       |
-| [Stop the World cutover](https://martinfowler.com/articles/patterns-legacy-displacement/stop-the-world.html) † | Suspend normal business activities while cutting over to new system |
-| [Revert to Source](https://martinfowler.com/articles/patterns-legacy-displacement/revert-to-source.html) | Identify the originating source of data and integrate to that |
-| [Transitional Architecture](https://martinfowler.com/articles/patterns-legacy-displacement/transitional-architecture.html) | Software elements installed to ease the displacement of a legacy system that we intend to remove when the displacement is complete. |
-| [Divert the Flow](https://martinfowler.com/articles/patterns-legacy-displacement/divert-the-flow.html) | First divert cross-organization activities away from legacy  |
-| [Dark Launching](https://martinfowler.com/articles/patterns-legacy-displacement/dark-launching.html) † | Call a new back end feature without using results in order to assess its performance impact. |
-| [Legacy Mimic](https://martinfowler.com/articles/patterns-legacy-displacement/legacy-mimic.html) | New system interacts with legacy system in such a way that the old system is not aware of any changes. |
-| [Event Interception](https://martinfowler.com/articles/patterns-legacy-displacement/event-interception.html) † | Intercept any updates to system state and route some of them to a new component |
+<table class="dark-head">
+<caption>交付模式</caption>
+<tbody><tr><td><a href="./patterns-for-delivery/critical-aggregator.md">关键聚合器 Critical Aggregator</a></td><td>组合来自企业不同部门的数据，以支持做出关键决策</td></tr>
+<tr><td><a href="./patterns-for-delivery/canary-release.md">金丝雀发布 Canary Release</a>&nbsp;†</td><td>在一部分用户中推送变更</td></tr>
+<tr><td><a href="./patterns-for-delivery/stop-the-world.md">世界停止式切入 Stop the World cutover</a>&nbsp;†</td><td>暂停正常的商业活动，同时切入新的系统</td></tr>
+<tr><td><a href="./patterns-for-delivery/revert-to-source.md">回归本源 Revert to Source</a></td><td>识别数据的本源，并整合到其中</td></tr>
+<tr><td><a href="./patterns-for-delivery/transitional-architecture.md">过渡架构 Transitional Architecture</a></td><td>为方便替换遗留系统而安装的软件元素，我们打算在替换完成后将其移除</td></tr>
+<tr><td><a href="./patterns-for-delivery/divert-the-flow.md">流量转移 Divert the Flow</a></td><td>首先将跨组织的活动从遗留问题中转移出来</td></tr>
+<tr><td><a href="./patterns-for-delivery/dark-launching.md">暗中启动 Dark Launching</a>&nbsp;†</td><td>在不使用其结果的情况下调用一个新的后端特性，以评估其性能影响</td></tr>
+<tr><td><a href="./patterns-for-delivery/legacy-mimic.md">遗留模拟 Legacy Mimic</a></td><td>新系统与遗留系统以这种方式互动，使旧系统察觉不到任何变化</td></tr>
+<tr><td><a href="./patterns-for-delivery/event-interception.md">时间拦截 Event Interception</a>&nbsp;†</td><td>拦截对系统状态的任何更新，并将其中的一些更新发送到一个新的组件上</td></tr>
+</tbody></table>
+
 
 † currently only a stub
 
