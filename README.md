@@ -104,7 +104,7 @@
 >
 > 我们多次看到的一个问题是所谓 “Netflix嫉妒”。即一个组织的技术领导者专注于像 Netflix 或其他一些成功的大型科技公司那样。这意味着他们试图模仿其工作方式或选择相同的技术解决方案。虽然如果他们也从事流媒体电影业务，这可能是合适的，但这往往会导致选择不合适的技术。这些技术通常具有可扩展的能力，但也具有更高的复杂性和成本，这是大多数企业所不需要的。
 
-### 决定要如何将问题分解成更小的部分
+### 决定如何将问题分解成更小的部分
 
 从广义上讲，这涉及到在当前的业务和技术架构中找到合适的“接缝”。重要的是，你必须考虑当前解决方案的元素如何映射到不同的业务能力上。对于遗留系统，这通常意味着探索一个大型技术解决方案如何满足多个业务需求，然后看看是否可以提取出单一需求并使用新的解决方案独立交付。理想情况下，这应该在相互依赖最小的情况下交付。
 
@@ -143,9 +143,9 @@
 <tr><td><a href="./patterns-for-breaking-up-the-problem/one-true-ring.md">The One True Ring 至尊魔戒</a>&nbsp;†</td><td>通过识别独特和共享的业务能力来细分问题</td></tr>
 </tbody></table>
 
-† currently only a stub
+† 目前仅预留桩
 
-### 成功地交付组件
+### 成功交付部件
 
 对更快变化的需要，以及增量式交付和不涉及大的依赖的独立变更业务元素的能力，往往会通向 "敏捷 "交付方法和基于微服务的架构。持续交付成为这些可单独部署的组件的必备条件。这不仅仅是一个普通的软件交付的挑战，而是要找到从现有的大型解决方案的元素切入、与之共存并最终替代的策略。有几种成功的策略，包括并行运行(parallel run)、入口分叉(fork on ingress)和流量转移(diversion of flow)。
 
@@ -161,44 +161,46 @@
 <tr><td><a href="./patterns-for-delivery/legacy-mimic.md">遗留模拟 Legacy Mimic</a></td><td>新系统与遗留系统以这种方式互动，使旧系统察觉不到任何变化</td></tr>
 <tr><td><a href="./patterns-for-delivery/event-interception.md">时间拦截 Event Interception</a>&nbsp;†</td><td>拦截对系统状态的任何更新，并将其中的一些更新发送到一个新的组件上</td></tr>
 </tbody></table>
+† 目前仅预留桩
 
+### 进行组织变革，以使上述过程能持续发生
 
-† currently only a stub
+如果我们退一步，看看交付新业务需求的整个过程，我们很快就会发现技术问题只是一部分。如果我们使用较新的技术来减少建立解决方案的时间和成本，那么我们就能突出围绕对需求达成一致以及将变化投入生产的任何问题。
 
-### Change the organization to allow this to happen on an ongoing basis
+我们需要组织结构和流程的改变，以充分利用更好的技术，根据[康威定律](https://martinfowler.com/bliki/ConwaysLaw.html)，我们还需要一个有利于此的技术架构。如果团队和他们的沟通是围绕着现有的遗留解决方案和流程组织的，我们可能需要使用[反康威法则](https://martinfowler.com/bliki/ConwaysLaw.html#icm)对他们进行重组，以匹配新的解决方案和它的架构。
 
-If we step back and look at the whole process of delivering new business requirements we can quickly see this is only partly a technology problem. If we use newer technology to cut time and cost of building solutions we will then highlight any issues around agreeing requirements and getting the change into production.
+遗留系统会制约和限制采用更多现代工程实践的能力，特别是那些与极限编程(eXtreme Programming)和持续交付(Continuous Delivery)有关的实践。在替换遗留系统时，重要的是要确保工作方式的改变，以确保我们最终不会回到一个变更起来缓慢、困难和昂贵的系统。
 
-> The hardest shift is the Paradigm Shift
+遗留问题也是组织文化和领导力的产物，如果没有更广泛的改变，你应该期待与以前一样的结果。我们已经观察到许多遗留系统现代化的努力由于 "公司抗体" 而失败，这些抗体发现了新发生的事物，并采取行动将其从组织中剔除。
+
+仅举一个例子，说明一个常见的组织可以拒绝变革的方式；我们与一家非常大的电信公司合作，该公司希望为移动电话构建软件。领导层都明白，这意味着比起他们看到的专注于固定基础设施的现有项目，这意味着更快的反馈周期和更频繁的变化。
+
+虽然领导层明白这一点，但并没有对现有的工作实践或管理这些流程的中层管理人员做出改变。因此，现有的变更控制流程被严格地应用。最后，软件团队花在填写变更控制表和参加变更控制会议的时间比他们生产软件的时间还要多。"公司抗体" 成功地拒绝了新的工作方式。
+
+组织变革是一个很大的话题，已经有很多文献资料，遗留问题的关键挑战往往与时间有关。很少有组织能够负担得起在重新设计（或重建，对于外包商的受害者）他们的整个交付方式以及他们的组织结构和关键业务流程并延后遗留系统现代化的进程。虽然组织转型这个更广泛的话题超出了我们的范围，但我们确实推荐了一些策略来应用和保护在遗留问题上的新工作方式。如果你只改变遗留，而不做其他事情，那么可以预期你将在几年后再次进行遗留替换。
+
+<table class="dark-head">
+<caption>持续组织变革的模式</caption>
+<tbody><tr><td><a href="./patterns-for-ongoing-organisational-change/build-as-you-mean-to-continue.md">按你的意思持续建设 Build as you mean to continue</a>&nbsp;†</td><td>以你需要的方式创建你的遗留替换，一旦它上线，就会持续下去</td></tr>
+<tr><td><a href="./patterns-for-ongoing-organisational-change/protected-pilot.md">试点保护 Protected Pilot</a>&nbsp;†</td><td>为新工作创建一个试点计划，并将其从正常的公司治理过程中分离出来</td></tr>
+<tr><td><a href="./patterns-for-ongoing-organisational-change/new-co.md">新公司 New Co</a>&nbsp;†</td><td>组建一个全新的公司来寻求市场颠覆</td></tr>
+</tbody></table>
+
+† 目前仅预留桩
+
+肯定还有其他的战略和方法来实现组织转型，我们只是强调了这两个，因为在某种程度上，它们可以让遗留系统现代化的工作尽早开始，而不是拖延。
+
+> 最难的转变是范式转变(Paradigm Shift)
 >
-20 years after Eli Goldratt, the legendary management consultant, published ["The Goal"](https://en.wikipedia.org/wiki/The_Goal_(novel)) he participated in an interview for Fortune Small Business where he was asked why it was so many organizations are slow to change. His response was to explain that most people will do anything they can to avoid as fundamental a change as the Theory of Constraints was at the time. He goes on to explain they'll do most anything they can to avoid shifting paradigm.
+在传奇的管理顾问伊莱-戈德拉特（Eli Goldratt）发表["目标"](https://en.wikipedia.org/wiki/The_Goal_(novel))的20年后，他参加了《财富-小型企业》(Fortune Small Business) 的采访，他被问到为什么这么多组织变革缓慢。他回答道，大多数人都会想方设法避免像约束理论(Theory of Constraints) 这样的根本性变革，他们会做任何事情来避免范式的转变。
+
+>他之后建议，为了成功改变范式，需要做三件事。
 >
->He goes on to suggest that in order to successfully change paradigm three things are needed.
->
->1. There must be real pressure to improve results
->2. Everything else within the same paradigm has already been tried and,
->3. They had help with the first step to get going
+>1. 必须有真正的压力来改善结果
+>2. 同一范式内的其他一切都已经被尝试过了，而且，
+>3. 他们在迈出第一步时得到了帮助
 
-We need organization structure and process changes to take full advantage of the better technology, and by [Conway's Law](https://martinfowler.com/bliki/ConwaysLaw.html) we also need an architecture for our technology that facilitates this. If teams and their communications are organized around the existing legacy solution and processes we may need to reorganize them using the [Inverse Conway Maneuver](https://martinfowler.com/bliki/ConwaysLaw.html#icm) to match the new solution and it's architecture.
 
-Legacy systems can constrain and limit the ability to adopt more modern engineering practices especially those associated with eXtreme Programming and Continuous Delivery. When replacing legacy systems it is important to make sure ways of working are changed to ensure we don't end up back with a system that is slow, difficult and expensive to change.
-
-Legacy is also the product of an organizations culture and leadership, without broader change you should expect the same outcomes as seen previously. We have observed many legacy modernization efforts fail due to "corporate antibodies" which spot something new happening and act to reject it from the organization.
-
-To give just one example of the way a broad organization can reject change; we worked with a very large telecommunications company who wanted to build software for mobile phones. The leadership all understood this meant much faster feedback cycles and more frequent changes than they saw with existing programmes which were focused on fixed infrastructure.
-
-While the leadership understood this no changes were made to existing working practice or to the middle management who ran those processes. So existing change control processes were rigorously applied. In the end the software teams were spending more time filling in change control forms and attending change control meetings than they were producing software. The "corporate antibodies" worked successfully to reject the new way of working.
-
-Organizational change is a big topic with much literature already available, the key challenge with legacy is often time related. Few organizations can afford to delay legacy modernization while they rework (or rebuild, for outsourcing victims) their whole delivery approach along side their organization structure and key business processes. While the broader topic of organization transformation is beyond our scope we do recommend some strategies for applying and protecting new ways of working in the context of legacy. If you just change the legacy and do nothing else it is fair to expect you'll replacing legacy again with a few years.
-
-| [Build as you mean to continue](https://martinfowler.com/articles/patterns-legacy-displacement/build-as-you-mean-to-continue.html) † | Create your legacy replacement in the way you need to continue once it is live. |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Protected Pilot](https://martinfowler.com/articles/patterns-legacy-displacement/protected-pilot.html) † | Create a pilot program for new work and detach it from the normal corporate governance process |
-| [New Co](https://martinfowler.com/articles/patterns-legacy-displacement/new-co.html) † | Form a brand new company to pursue a market disruption       |
-
-† currently only a stub
-
-There are definitely other strategies and approaches to organization transformation, we just highlighted these two as to some degree they allow work to be started on the legacy modernization sooner rather than later.
 
 ## An example: Integration Middleware Removal
 
