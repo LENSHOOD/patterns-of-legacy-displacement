@@ -204,23 +204,23 @@
 
 
 
-## An example: Integration Middleware Removal
+## 案例：移除集成中间件 An example: Integration Middleware Removal
 
-This example describes how one of our teams used a number of Legacy Modernization Patterns to successfully replace integration middleware critical to the operation of their client's business as part of a larger legacy modernization programme. They combined patterns and refactorings to successfully manage risk to the business, and facilitate eating this particularly gristly part of the elephant.
+这个例子描述了我们的一个团队是如何使用一些遗留系统现代化模式来成功替换对客户业务运作至关重要的集成中间件，该例本身也是一个更大的遗留系统现代化计划的一部分。他们将模式和重构结合起来，成功地管理了业务的风险，并促进了“消化这头大象中最粗糙部分”的过程。
 
-### Understanding the outcomes
+### 明白想要实现的结果
 
-The challenge faced by our team was how to replace integration middleware that was out of support, hard to change and very costly with a new supportable, flexible solution for the business. Without disrupting or putting at risk existing business operations. The middleware in question was used to integrate between a backend end system and a store front. Together these systems were responsible for selling high value unique products worth tens of millions of pounds every day.
+我们的团队所面临的挑战是如何将一个已经失去支持、难以变更和非常昂贵的集成中间件，替换为一个新的可受支持的、灵活的业务解决方案。且不破坏现有业务运作或将其置于风险之中。有问题的中间件是用来整合后端系统和店面系统的。这些系统共同负责每天销售价值数千万英镑的高价值独特产品。
 
-This work was a high priority part of a larger programme. The entirety of the backend systems supporting the business were being replaced, and the store front was also going to be subject to a modernization programme within a couple of years.
+这项工作是一个更大的计划中的高度优先部分。整个支持业务的后台系统正在被替换，店面系统也将在几年内进行现代化改造。
 
-So, as per step 1 above, the business outcomes the team needed to achieve were defined:
+因此，按照上面的步骤1，团队需要实现的业务成果被定义为：
 
-1. Improve the business process
-2. How? This particular integration middleware solution contained a significant amount of logic including rules core to the business, like which channel to sell a product on, or how and when to present a product for sale within the store front. This existing system was very hard to change, stifling business innovation, and flaws in the logic resulted in issues like having periods when a product was not even on sale!
+1. 改进业务流程
+2. 怎么做？这个特殊的集成中间件解决方案包含了大量的逻辑，包括业务的核心规则，比如在哪个渠道销售产品，或者如何以及何时在店面内展示产品进行销售。这个现有的系统很难改变，扼杀了业务创新，而且逻辑上的缺陷导致了一些问题，比如有一段时间产品甚至没有在销售！
 
-3. Retire old system as soon as possible
-4. Why? To reduce existing (and increasing) license and support costs. Additionally, to mitigate the risk to the business created by operating critical functions on aged out of support middleware and database technologies.
+3. 尽快淘汰旧系统
+4. 为什么？为了减少现有的（和不断增加的）许可证和支持成本。此外，要减少在过时的中间件和数据库技术上运行关键功能所带来的业务风险。
 
 
 
@@ -228,37 +228,36 @@ So, as per step 1 above, the business outcomes the team needed to achieve were d
 
 
 
-High level system processing: Users individually managed the pricing and publishing of products using screens within the legacy backend system. For each published product, that system would place a message onto a SwiftMQ queue. The integration middleware would consume that message, create its own view of the state of the product and call a legacy SOAP API on the store front to publish it. Over time, the integration middleware would update the state of the product using the API to change how the product was made available to customers (e.g. change the product from "preview only" to "newly available" etc). When a customer purchased a product the legacy storefront would call an API provided by the integration middleware. The middleware would update its own state of the product and update the legacy system's master database with the sale information.
+高阶的系统处理流程：用户使用遗留后台系统中的屏幕单独管理产品的定价和发布。对于每个发布的产品，该系统会将一条消息放到SwiftMQ 队列中。集成中间件将消费该消息，创建它自己的产品状态视图，并调用店面系统的遗留 SOAP API来发布它。随着时间的推移，集成中间件将使用 API 更新产品的状态，以改变产品提供给客户的方式（例如，将产品从 "仅预览 "改为 "新提供 "等）。当客户购买产品时，遗留店面系统将调用集成中间件提供的 API。中间件将更新自己的产品状态，并将销售信息更新到遗留系统的主数据库里。
 
-### Breaking the problem up: the first seam and a refactoring
+### 将问题分解成更小的部分：第一个接缝和第一次重构
 
-During [Inception](https://martinfowler.com/articles/lean-inception/) the team ran a workshop with people who had deep knowledge of the legacy system, to collaboratively visualise both the as-is and to-be software architectures. Having done this, they found a technical seam that could be exploited in the form of messaging based integration between the legacy backend and the Integration Middleware. The Legacy backend, an aging J2EE application, placed "publish product" messages onto a queue provided by a very old version of SwiftMQ. The [Event Interception](https://martinfowler.com/articles/patterns-legacy-displacement/event-interception.html) pattern would be useful here, and if implemented as a [Content-Based Router](http://www.enterpriseintegrationpatterns.com/ContentBasedRouter.html) would allow control over how messages from the legacy backend were routed, and create an option enabling messages to be routed to new systems.
+在 [Inception](https://martinfowler.com/articles/lean-inception/) 期间，团队与对遗留系统有深入了解的人进行了一次研讨会，以合作的方式将现有的和未来的软件架构可视化。这样做之后，他们发现了一个可以利用的技术接缝，那就是在遗留后端和集成中间件之间基于消息的集成。遗留后端是一个老旧的 J2EE 应用程序，它将 "发布产品 "的消息放到一个由非常旧的 SwiftMQ 版本提供的队列中。[事件拦截 Event Interception](./patterns-for-delivery/event-interception.md) 模式在这里很有用，如果作为[基于内容的路由器](http://www.enterpriseintegrationpatterns.com/ContentBasedRouter.html)来实现，就可以控制来自遗留后端的消息如何被路由，并创建一个选项，使消息可以被路由到新系统。
 
-The integration middleware also handled messages coming from the Store Front (e.g. for product sales), using JDBC to directly update state in the Master Database behind the legacy backend. Together the asynchronous messaging via SwiftMQ and the JDBC database updates formed the interface between the Legacy Backend and the Integration Middleware.
+集成中间件也处理来自店面系统的消息（如产品销售），使用 JDBC 直接更新遗留后端背后的主数据库的状态。通过 SwiftMQ 的异步消息传递和 JDBC 的数据库更新共同构成了遗留后端和集成中间件之间的接口。
 
 ![Branch by abstraction](https://martinfowler.com/articles/patterns-legacy-displacement/BranchByAbstraction.png)
 
 
 
-Although, not spotted at the time, the team were able to use the [Branch by Abstraction](https://martinfowler.com/bliki/BranchByAbstraction.html) pattern, at a sub-system scale, as the strategy to enable the replacement of the legacy middleware. The abstraction layer being the queues and the JDBC. By ensuring that the new implementation adhered to that abstraction layer it could be swapped for the "flawed supplier" without impacting the business operations.
+虽然当时没有发现，但该团队能够使用[抽象分支 Branch by Abstraction](https://martinfowler.com/bliki/BranchByAbstraction.html)模式，在一个子系统的规模上，作为策略来实现对传统中间件的替换。抽象层是队列和 JDBC。只要确保新的实现遵守该抽象层，那么它可以在不影响业务运营的情况下被替换回"有缺陷的提供方"。
 
-The first thing the team did was to implement event interception by adding an Event Router via a refactoring.
+团队做的第一件事是通过重构添加了一个事件路由器(Event Router) 来实现事件拦截。
 
 ![(P)Refactoring to add Event Interceptor](https://martinfowler.com/articles/patterns-legacy-displacement/IntegrationMiddleWareRemoval_2.png)
 
 
 
-The Event Router (1) was created with three main capabilities in mind:
+事件路由器(1)的创建有三个主要功能：
 
-High level system processing: The term [Refactoring](https://martinfowler.com/books/refactoring.html) was chosen here, as the structure of the system was changed without any observable change to behaviour. Now, when a product is published by a user the legacy backend system still places a publish message onto a SwiftMQ queue. Instead of the integration middleware consuming it, the Event Router now consumes the message from that queue and enqueues it, unchanged, onto an alternative SwiftMQ queue. The integration middleware consumes the message from this alternative queue, a change that was possible via a trivial configuration setting.
+高阶的系统处理流程：这里选择了[重构](https://martinfowler.com/books/refactoring.html)这个术语，因为系统的结构被改变了，但行为却没有任何可观察到的变化。现在，当用户发布产品时，遗留后端系统仍然将消息发布到 SwiftMQ 队列中。现在，该消息不是由集成中间件来消费它，而是由事件路由器从该队列中消费消息，并将其原封不动地送入另一个 SwiftMQ 队列中。集成中间件从这个替代的队列中消费消息，这一变化可以通过一个简单的配置设置实现。
 
-1. To de-queue messages from one SwiftMQ queue and en-queue them onto another SwiftMQ queue (2). A trivial change of some config enabled the Integration Middleware to consume messages from this new queue(2).
-2. Overall the refactoring left the observable system behaviour unchanged, but the Event Router was now part of the Transitional Architecture, having been inserted into the message processing pipeline.
+1. 从一个 SwiftMQ 队列中取出消息，并将其送入另一个 SwiftMQ 队列(2)。通过对一些配置的微不足道的改变，集成中间件就可以从这个新队列(2) 中消费消息。
+2. 总的来说，重构使可观察的系统行为没有发生变化，但事件路由器现在是过渡架构(Transitional Architecture) 的一部分，已经被插入到消息处理流水线中了。
+3. 对事件路由器的设想是，通过配置，将消息路由到另一个目的地 - 使新的实现能够处理发布消息。[事件拦截 Event Interception](./patterns-for-delivery/event-interception.md)
+4. 事件路由器还将作为桥梁，提供从旧的 SwiftMQ 技术到为目标架构选择的新的 ActiveMQ 技术的对接。
 
-3. The vision for the Event Router was to enable, through configuration, routing of messages to an alternative destination - enabling the new implementation to process the publish messages. [Event Interception](https://www.martinfowler.com/bliki/EventInterception.html)
-4. The Event Router would also provide a bridge from the old SwiftMQ technology to the new ActiveMQ technology chosen for the target architecture.
-
-Implementing the Event router was not as straight forward as it could have been. Integrating with SwiftMQ was problematic due to lack of available drivers / libraries and the approach was challenged a number of times. The team understood the value of the options that this approach would unlock, and completed the work and released into production. They monitored the new component in the wild and were set to incrementally enhance its capability using new [Continuous Delivery](https://martinfowler.com/bliki/ContinuousDelivery.html) pipelines.
+实现事件路由器并不像它本来那样简单。由于缺乏可用的驱动/库，与 SwiftMQ 的集成是有问题的，而且这种方法受到了多次挑战。团队理解这种方法的价值，完成了这项工作并发布到生产中。他们在外部监控了新的组件，并准备使用新的[持续交付](https://martinfowler.com/bliki/ContinuousDelivery.html)流水线来逐步增强其能力。
 
 ### Successfully deliver the parts: building out the functionality, maintaining the contract
 
