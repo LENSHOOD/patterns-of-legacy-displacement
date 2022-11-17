@@ -259,56 +259,56 @@
 
 实现事件路由器并不像它本来那样简单。由于缺乏可用的驱动/库，与 SwiftMQ 的集成是有问题的，而且这种方法受到了多次挑战。团队理解这种方法的价值，完成了这项工作并发布到生产中。他们在外部监控了新的组件，并准备使用新的[持续交付](https://martinfowler.com/bliki/ContinuousDelivery.html)流水线来逐步增强其能力。
 
-### Successfully deliver the parts: building out the functionality, maintaining the contract
+### 成功交付部件：构建功能，维持契约
 
 ![New Implementation and Rollout](https://martinfowler.com/articles/patterns-legacy-displacement/IntegrationMiddleWareRemoval_3.png)
 
 
 
-The new Store Front Manager(1) was now iteratively built out by the team . Relevant to this example, that build included the Master Database Adapter (2) implementing the Legacy Mimic pattern. This was required as part of the abstraction layer, to update the Master Database with sales information received from the Store Front. As the Event Router did not transform messages, a Legacy Event Adapter (3) ([Message Translator](http://www.enterpriseintegrationpatterns.com/MessageTranslator.html)) was created to transform messages into a new format, not exposing the legacy world to the new, and aligning to the principles of the new architecture. The Legacy Storefront [Adapter](https://martinfowler.com/bliki/RequiredInterface.html)(4) was also implemented between the new Store Front Manager(1) and the Legacy Store Front to isolate the new implementation from future changes that would be coming when the store front was replaced.
+新的店面管理器（1）现在已经由团队迭代式构建出来了。与这个例子有关的是，该构建包括了实现遗留模拟(Legacy Mimic) 模式的主数据库适配器（2）。这需要作为抽象层的一部分，用从店面收到的销售信息更新主数据库。由于事件路由器没有转换消息，所以创建了一个遗留事件适配器（3）（[消息翻译器 Message Translator](http://www.enterpriseintegrationpatterns.com/MessageTranslator.html)）来将消息转换为新的格式，不将遗留的世界暴露给新的世界，并与新架构的原则保持一致。遗留店面[适配器](https://martinfowler.com/bliki/RequiredInterface.html)(4)也在新的店面管理器(1)和遗留店面之间实施，以便将新的实现与未来店面被替换时的变化隔离。
 
-A new API was introduced on the Legacy Store Front (5) that the new Store Front Manager was to use. Additionally, a feature was added enabling call backs for products published on the new API to be sent to the new Store Front Manager's adapter (4). Critically, this enabled the legacy implementation and the new implementation to be run in parallel.
+新的店面管理器将在遗留店面系统（5）上引入一个新的API。此外，还增加了一个功能，使在新的API上发布的产品的回调能够被发送到新的店面管理器的适配器（4）。重要的是，这使得遗留实现和新实现可以并行运行。
 
-### Successfully deliver the parts (cont.): transitioning into live service - using a second seam
+### 成功交付部件（续）：过渡到服务上线 - 使用第二个接缝
 
-With all of the pieces in place the business were able to test the new solution, but how to roll it out into live service **in a risk managed way**.
+在所有部件都到位的情况下，业务能够测试新的解决方案，但如何**以风险可控的方式**将其逐步推广到实际服务中？
 
-To do this they took advantage of another seam - this time using the Segment by Product pattern. The Event Router was enhanced to add configurable routing (6) by product type as well as by unique product IDs. The team were able to test the publishing, management and sale of individual products by ID, and then over time configure the router with progressively more and more product types, essentially increasing the percentage of products handled by the new solution.
+为了做到这一点，他们利用了另一个接缝--这次是使用按产品分片(Segment by Product) 的模式。事件路由器得到了增强，增加了可以按产品类型以及产品唯一ID的方式配置路由（6）。该团队能够测试按ID发布、管理和销售单个产品，然后随着时间的推移，路由被配置到越来越多的产品类型，本质上是增加使用新解决方案处理的产品比例。
 
-When all products were being handled by the new systems, the legacy Integration Middleware was decommissioned, realising the significant £ saving in license, support and datacenter hosting fees.
+当所有的产品都由新系统处理时，遗留的集成中间件就退役了，实现了许可证、支持和数据中心托管费用的大幅节省。
 
 ![Legacy Gone](https://martinfowler.com/articles/patterns-legacy-displacement/IntegrationMiddleWareRemoval_5.png)
 
 
 
-High level system processing: Unless the business had specified otherwise, processing of a given product proceeded as before. For products where the business were happy to route them through the new system the processing was now as follows. A publish message was placed on a SwiftMQ queue. The event router would check the message payload and inspect the product manufacturer. If configured the Event Router would place this message unaltered onto an ActiveMQ queue. The Legacy Event Adapter transformed the message into a business event aligned to principles from the target architecture. The New Storefront Manager application would store its own representation of the product and forward a command message via a queue for the product to be published. The Legacy Storefront Adapter consumes that command, and calls the new v2 API on the Legacy Storefront.
+高阶的系统处理流程：除非企业另有规定，否则对某一产品的处理与以前一样。对于企业乐于通过新系统处理的产品，现在的处理方式如下。一个产品发布的消息被放在 SwiftMQ 队列中。事件路由器将检查消息的载荷并检查产品制造商。如果存在配置，事件路由器就会把这个消息未经修改地放到一个 ActiveMQ 队列中。遗留事件适配器将消息转换为符合目标架构原则的业务事件。新的店面管理器应用程序将存储它自己的产品表现形式，并通过队列转发一个命令消息，以便产品被发布。遗留店面适配器消费该命令，并在遗留店面系统上调用新的 v2 API。
 
-As required by the business, users can now manipulate how the products are presented on the storefront in addition to the manager changing this overtime by issuing new commands.
+按照企业的要求，除了经理通过发布新的命令来改变这种加班情况外，用户现在还可以操纵产品在店面上的展示方式。
 
-When a product (published via the v2 API) is sold, the Legacy Store Front calls back to an API provided by the Legacy Storefront Adapter, which transforms the call into a business event and places that event onto an ActiveMQ queue. The New Storefront Manager, and Master Database Adapter consume these events. The new storefront manager updating its internal state of the product, and the Master Database Adapter updating the legacy Master Database with the sale information.
+当一个产品（通过v2版API发布）被售出时，遗留店面系统会回调到由遗留店面适配器提供的 API，该适配器将调用转化为一个业务事件，并将该事件放到一个 ActiveMQ 队列中。新店面管理器，和主数据库适配器消费这些事件。新店面管理器更新其内部的产品状态，主数据库适配器用销售信息更新遗留主数据库。
 
-### Changing the organisation to allow this to happen on an ongoing basis
+### 进行组织变革，以使上述过程能持续发生
 
-Our teams had already been working with the client, in another part of the organisation and had already successfully displaced a different legacy system.
+我们的团队已经在该组织的另一部分上与客户合作，并且已经成功地取代了一个不同的遗留系统。
 
-At an engineering level across the organisation continuous delivery and good supporting quality practices were now the established norm, and a microservices style architecture enabled regular and independent deployment of containerised services onto a cloud based platform.
+在整个组织的工程层面上，持续交付和良好的支持性质量实践现在是既定的规范，而微服务风格的架构使容器化服务定期和独立地部署到基于云的平台。
 
-The teams on the new programme, working with new stakeholders, needed to take this other part of the business on the same "agile and CD" journey, and early risk managed releases enabled trust to be earned. Over time it was possible to demonstrate how new engineering and quality practices including CD were mitigating the same risks that had historically resulted in higher levels of bureaucracy and governance. So less frequent, larger scope releases were also displaced by smaller, more frequent, higher confidence deployments, and toggled releases to the business when they were ready to take on the changes.
+新项目的团队与新的 stakeholders 合作，需要把这部分业务带上同样的 "敏捷+持续交付 "之旅，早期的风险可控的发布使他们赢得了信任。随着时间的推移，我们有可能证明包括持续交付在内的新的工程和质量实践是能够减少风险的，而历史上，如果想要减少相同规模的风险，则需要更高级的官僚机构和治理工作。因此，较少的、较大范围的发布也被较小的、较频繁的、较高信心的部署所取代，并在企业准备好接受变化时向他们切换发布。
 
-### Closing thoughts
+### 结束感想
 
-Of course there was significantly more complexity and integration requirements than implied by the simplified story above. An example of the need for Archeology introduced itself shortly after testing the new implementation in production. A number of business critical management information reports did not tally - products were "getting lost".
+当然，比起上面的简化故事，还有更多的复杂性和整合要求。在生产中测试了新的实施方案后不久，就出现了一个需要做 “考古” 的例子。一些关键业务的管理信息报告对不齐 - 产品 "丢失" 了。
 
-After much digging the team found that the database used by the Integration Middleware (for storing the state of long running business transactions) was replicated to the organisation's data warehouse. Via a number batch jobs, stored procedures and views this data was made available for use within the business critical KPI reports.
+经过大量的调查，团队发现集成中间件使用的数据库（用于存储长期运行的业务交易状态）被复制到组织的数据仓库。通过一些批处理作业、存储过程和视图，这些数据可以在关键业务 KPI 报告中使用。
 
 ![LegacyModernizationExample_Archeology](https://martinfowler.com/articles/patterns-legacy-displacement/LegacyModernisationExample_Archeology.png)
 
 
 
-Additional Legacy mimics were required to ensure that these reports did not break. The team used a [Wire Tap](http://www.enterpriseintegrationpatterns.com/WireTap.html) on sales messages coming from the Store Front and using JDBC injected the data into appropriate tables within the data warehouse. These additional mimics also became part of the transitional architecture, and would be removed when possible.
+为了确保这些报告不被破坏，还需要额外的遗留模拟器。团队对来自店面系统的销售信息使用 [Wire Tap](http://www.enterpriseintegrationpatterns.com/WireTap.html)，并使用 JDBC 将数据注入到数据仓库内的适当表格中。这些额外的模拟器也成为过渡性架构的一部分，并在可能的情况下被删除。
 
-The approach of branch by abstraction, and use of patterns and practices described above was one intended to lower risk.
+上文所述的通过抽象的分支，以及使用模式和实践的方法是为了降低风险。
 
-Using Event Interception (technical seam), Legacy Mimics and Transitional Architecture enabled the client to break the problem up. Then segmenting by product (business seam), in this case product type, enabled fine control of the wider rollout and further management of risk. Overall the approach allowed the business to proceed with the system replacement at the pace that was comfortable to them.
+使用事件拦截（技术接缝）、遗留模拟和过渡性架构使客户能够将问题分解。然后，按产品（业务接缝）进行细分，在这种情况下，通过产品类型分片后，就允许更细粒度的控制平滑推广以及更进一步的风险管理。总的来说，这种方法使企业能够以他们满意的速度进行系统替换。
 
-The approach allowed risk to be managed, but came at a cost. A question to consider is therefore "What value does the business place on this risk mitigation?" Being explicit and quantifying it, will allow a team to track investments against it. The event router and legacy mimics were part of an investment in a transitional architecture intended to manage risk. Their roles were to create options enabling risk to be managed. It can be very easy for such work to be seen as "throw away" - and as such a cost to be avoided wherever possible. Be explicit and transparent in this "value of risk mitigation" vs "cost of transitional architecture" trade-off.
+这种方法使风险得到了管理，但也付出了代价。因此，需要考虑的一个问题是："企业对这种降低风险的价值是什么？" 明确并量化它，将使一个团队能够根据它来跟踪投资。事件路由和遗留模拟都是过渡架构投资中，用于管理风险的部分。他们的作用是创造能够管理风险的选项。这样的工作很容易被视为 "丢弃" - 并作为一种成本被尽可能地避免。应明确和透明这种 "减轻风险的价值" 与 "过渡架构的成本" 之间的权衡 。
