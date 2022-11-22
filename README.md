@@ -121,8 +121,9 @@
 <tbody><tr><td><a href="./patterns-for-understanding-the-problem/identify-business-capabilities.md">识别业务能力 Identify Business Capabilities</a>&nbsp;†</td><td>识别组织中稳定的部分，以构建团队和软件</td></tr>
 <tr><td><a href="./patterns-for-understanding-the-problem/create-town-plan.md">创建城市规划 Create Town Plan</a>&nbsp;†</td><td>识别组织中稳定的部分，以构建团队和软件</td></tr>
 <tr><td><a href="./patterns-for-understanding-the-problem/value-stream-map.md">价值流图 Value Stream Map</a>&nbsp;†</td><td>描述用户如何完成其工作的工件</td></tr>
-<tr><td><a href="./patterns-for-understanding-the-problem/event-storming.md">事件风暴 Event Storm</a>&nbsp;†</td><td>用于理解业务流程的技术</td></tr>
+<tr><td><a href="./patterns-for-understanding-the-problem/event-storm.md">事件风暴 Event Storm</a>&nbsp;†</td><td>用于理解业务流程的技术</td></tr>
 </tbody></table>
+
 
 † 目前仅预留桩
 
@@ -137,11 +138,12 @@
 <table class="dark-head">
 <caption>拆解问题的模式</caption>
 <tbody><tr><td><a href="./patterns-for-breaking-up-the-problem/extract-product-lines.md">产品线提取 Extract Product Lines</a></td><td>按产品线识别和分割系统</td></tr>
-<tr><td><a href="./patterns-for-breaking-up-the-problem/extract-value-streams.md">价值流提取 Extract Value Streams</a>&nbsp;†</td><td>按价值流识别和分割系统</td></tr>
+<tr><td><a href="./patterns-for-breaking-up-the-problem/extract-value-stream.md">价值流提取 Extract Value Streams</a>&nbsp;†</td><td>按价值流识别和分割系统</td></tr>
 <tr><td><a href="./patterns-for-breaking-up-the-problem/feature-parity.md">特性对等 Feature Parity</a></td><td>
 使用新的技术栈复制一个遗留系统的现有功能</td></tr>
-<tr><td><a href="./patterns-for-breaking-up-the-problem/one-true-ring.md">至尊魔戒 The One True Ring</a>&nbsp;†</td><td>通过识别独特和共享的业务能力来细分问题</td></tr>
+<tr><td><a href="./patterns-for-breaking-up-the-problem/the-one-true-ring.md">至尊魔戒 The One True Ring</a>&nbsp;†</td><td>通过识别独特和共享的业务能力来细分问题</td></tr>
 </tbody></table>
+
 
 
 † 目前仅预留桩
@@ -154,7 +156,7 @@
 <caption>交付模式</caption>
 <tbody><tr><td><a href="./patterns-for-delivery/critical-aggregator.md">关键聚合器 Critical Aggregator</a></td><td>组合来自企业不同部门的数据，以支持做出关键决策</td></tr>
 <tr><td><a href="./patterns-for-delivery/canary-release.md">金丝雀发布 Canary Release</a>&nbsp;†</td><td>在一部分用户中推送变更</td></tr>
-<tr><td><a href="./patterns-for-delivery/stop-the-world.md">停止世界式切入 Stop the World cutover</a>&nbsp;†</td><td>暂停正常的商业活动，同时切入新的系统</td></tr>
+<tr><td><a href="./patterns-for-delivery/stop-the-world-cutover.md">停止世界式切入 Stop the World cutover</a>&nbsp;†</td><td>暂停正常的商业活动，同时切入新的系统</td></tr>
 <tr><td><a href="./patterns-for-delivery/revert-to-source.md">回归本源 Revert to Source</a></td><td>识别数据的本源，并整合到其中</td></tr>
 <tr><td><a href="./patterns-for-delivery/transitional-architecture.md">过渡架构 Transitional Architecture</a></td><td>为方便替换遗留系统而安装的软件元素，我们打算在替换完成后将其移除</td></tr>
 <tr><td><a href="./patterns-for-delivery/divert-the-flow.md">流量转移 Divert the Flow</a></td><td>首先将跨组织的活动从遗留问题中转移出来</td></tr>
@@ -162,6 +164,7 @@
 <tr><td><a href="./patterns-for-delivery/legacy-mimic.md">遗留模拟 Legacy Mimic</a></td><td>新系统与遗留系统以这种方式互动，使旧系统察觉不到任何变化</td></tr>
 <tr><td><a href="./patterns-for-delivery/event-interception.md">事件拦截 Event Interception</a>&nbsp;†</td><td>拦截对系统状态的任何更新，并将其中的一些更新发送到一个新的组件上</td></tr>
 </tbody></table>
+
 
 † 目前仅预留桩
 
