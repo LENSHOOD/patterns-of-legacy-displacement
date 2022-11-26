@@ -2,63 +2,63 @@
 
 > 本文是对 [Ian Cartwright](https://www.linkedin.com/in/ian-cartwright-282952/)， [Rob Horn](https://www.linkedin.com/in/rob-horn)，和 [James Lewis](https://bovon.org/) 的文章 [*Feature Parity*](https://martinfowler.com/articles/patterns-legacy-displacement/feature-parity.html) 的中文翻译。
 
-*Replicate existing functionality of a legacy system using a new technology stack.*
+*使用新的技术栈复制遗留系统的现有功能*。
 
 ---
 
-On many occasions when we find ourselves talking to IT executives we hear how they have a suite of aging applications built using soon to be, if not already end of life technologies. More often that not these systems are hosted in costly data centers managed by 3rd parties and with inflexible contracts. These applications are critical to the successful operation of the business, while at the same time being one of the largest sources of business and operational risk.
+在许多情况下，当我们发现自己与IT主管交谈时，我们听到他们有一套老旧的应用程序，构建在快要、甚至已经消亡的技术上。更多的时候，这些系统被托管在昂贵的数据中心，由第三方管理，并签订了不灵活的合同。这些应用程序对企业的成功运作至关重要，与此同时，它们也是业务和运营风险的最大来源之一。
 
-They are all too aware that there is an chance to make improvements, optimize processes and unlock new opportunities. To do this fully however is going to be disruptive and brings in many dependencies. For instance the commitments of existing 'BAU' work, other change programmes and not least the existing plans and budgets of the departments where the end users work.
+他们都很清楚，是有机会对其进行改进、优化流程并释放新机会的。然而，要完全做到这一点将是破坏性的，并存在诸多依赖。例如，现有的 "日常工作" 的承诺，其他的变革计划，以及末端用户工作的部门其现有的计划和预算。
 
-One approach in this situation is to try to minimize the impact of replacement on the broader organization by 'simply' replacing the technology while leaving everything else 'as is'. This is approach often referred to as Feature Parity, or the 'feature parity trap' by those who have tried it.
+在这种情况下，一种方法是试图通过 "简单" 地技术替换而使其他一切 "保持原样" 来尽量减少替换对更大范围组织的影响。这种方法通常被称为 "特性对等（Feature Parity）"，或者被那些尝试过的人称为 "特性对等之陷阱"。
 
-Whilst Feature Parity often sounds like a reasonable proposition, we have learnt the hard way that people greatly underestimate the effort required, and thus misjudge the choice between this and the other alternatives. For example even just defining the 'as is' scope can be a huge effort, especially for legacy systems that have become core to the business.
+虽然 "特性对等 "听起来像是一个合理的建议，但我们已经知道，人们大大低估了所需的努力，从而误判了这一选择和其他选择之间的关系。例如，即使只是定义 "现状（as-is）" 的范围，也会是一个巨大的努力，特别是对于已经成为业务核心的遗留系统。
 
-Most legacy systems have 'bloated' over time, with many features unused by users (50% according to a 2014 Standish Group report) as new features have been added without the old ones being removed. Workarounds for past bugs and limitations have become 'must have' requirements for current business processes, with the way users work defined as much by the limitations of legacy as anything else. Rebuilding these features is not only waste it also represents a missed opportunity to build what is actually needed today. These systems were often defined 10 or 20 years ago within the constraints of previous generations of technology, it very rarely makes sense to replicate them 'as is'.
+随着时间的推移，大多数遗留系统已经 "膨胀"，因为新的特性被添加，而旧的没有被删除，导致许多特性都没有被用户使用（根据 2014 年 Standish 集团的报告，是 50%）。对过去 bug 和限制的妥协已经成为当前业务流程的 "必须 "要求，用户的工作方式由遗留的限制和其他东西决定。重建这些特性不仅是一种浪费，而且还代表着错过了建立现状真正需要的东西的机会。这些系统通常是在10年或20年前在前几代技术的限制下定义的，"原封不动" 地复制它们是非常没有意义的。
 
-If Feature Parity is a genuine requirement then this pattern describes what it might take to do well. It is not an easy path, nor one to be taken lightly.
+如果真的的确要求特性对等，那么这个模式也描述了可能需要做好的事情。这不是一条容易的路，也不是一条可以随便走的路。
 
-## How It Works
+## 怎么做 How It Works
 
-Feature parity is simple concept to state. Build a new system, in a more appropriate technology stack, with exactly the same features and behaviors as the existing system. Whenever anyone has a question about what the new system should do, we answer that question with "do what the existing system does". To know we have parity we need to fully understand what the current system does, and be able to verify the new system does that same thing.
+特性对等是一个简单的概念。在一个更合适的技术栈中建立一个新的系统，其特性和行为与现有系统完全相同。每当有人问起新系统应该做什么时，我们就用 "做现有系统做的事" 来回答这个问题。要想确认其对等性，我们需要充分理解当前系统的作用，并能够验证新系统做了同样的事情。
 
-### What is in scope - what does the old system do?
+### 范围是怎样的 -- 旧系统做了什么？
 
-The first part of feature parity is to create a specification of what the current system does. A combination of the following will likely be required:
+特征对等的第一部分是创建一个当前系统做了些什么的说明书。可能需要结合以下内容：
 
-#### System Surveys
+#### 系统调研
 
-##### User Actions
+##### 用户操作
 
-What are the user roles, what features (menu items) in the system can they see, what actions can they perform. For each menu item / action - what are the screens involved, what data items, what validation logic can you see. What observable result is there for a user taking the action?
+用户的角色是什么，他们可以看到系统中的哪些特性（菜单项），他们可以执行哪些操作。对于每个菜单项/操作项 -- 所涉及的页面是什么，数据项是什么，你能看到的校验逻辑是什么。对于采取该操作的用户，能观察到何种结果？
 
-##### Batch processes
+##### 批处理
 
-What batch jobs are defined in the system? When are they triggered, what processing do they perform, what observable results are there?
+系统中定义了哪些批处理作业？它们何时被触发，执行什么处理，能观察到何种结果？
 
-##### Interfaces and Integrations
+##### 接口和集成
 
-What systems are integrated?
+哪些系统被集成了？
 
-- What interfaces does this system provide to its customers, what are the contracts (API, CFRs, behaviour expectations/side effects)
-- What interfaces does this system consume, what are those contracts?
-- Look out for systems or parts of systems that are integrated via databases (see Reports / Data, and Archeology)
+- 这个系统向其客户提供了什么接口，有哪些契约（API、CFR、行为预期/副作用）？
+- 这个系统消费了哪些接口，契约是什么？
+- 注意那些通过数据库集成的系统或系统的一部分（见如下 “报表 / 数据” 和 “考古”）。
 
-##### Core algorithms
+##### 核心算法
 
-Well known business rules and calculations that need to be replicated - triggered by user actions, batch processes.
+众所周知的业务规则和需要复制的计算--由用户操作、批处理触发。
 
-##### Reports / Data
+##### 报表 / 数据
 
-What reports does the system create, in what format, from what data, when and how frequently?
+该系统创建什么报表，以什么格式，从什么数据，在什么时候，有多频繁？
 
-How is the data mutated within the database? Are there triggers altering the data, what fires them, and what procedures do they fire? How deep does that rabbit hole go?
+在数据库中的数据是如何变化的？是否存在改变数据的触发器，是什么触发了这些触发器，以及触发了什么存储过程？这个兔子洞（rabbit hole）有多深？
 
-What other systems have access to or are integrated using this data? In what ways do they change it, and what observable behaviour do those changes have?
+哪些其他系统可以访问或正在使用这些数据？它们以什么方式改变数据，能观察到何种结果？
 
-#### Archeology
+#### 考古
 
-Archeology is often needed to fully understand what a system does. It is through an "archaeological process" that you learn that changing the data field Y on screen A results in value Z appearing on report C after batch job N runs. Performing this archeology can be a significant investment in time, and brain power of those people with the most experience of your legacy systems.
+要完全理解一个系统的作用，往往需要考古。正是通过一个 "考古过程"，你了解到在批处理任务 “N” 运行后，改变页面 “A” 上的字段 “Y” 会导致数值 “Z” 出现在报表 “C” 上。执行这种考古工作可能需要投入大量的时间，以及那些对遗留系统最有经验的人的脑力。
 
 #### Instrumentation - based on data, what is used?
 
